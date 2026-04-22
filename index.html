@@ -159,16 +159,22 @@
   /* ─── BOTTOM NAV ─── */
   .nav-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: center; align-items: flex-end; padding-bottom: max(20px, env(safe-area-inset-bottom)); pointer-events: none; }
   .nav-container {
-    pointer-events: all; display: flex; align-items: center; position: relative; overflow: hidden;
+    pointer-events: all; display: flex; align-items: center; position: relative; 
+    overflow: visible; 
     background: var(--nav-bg); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
     border: 1px solid var(--glass-border); border-radius: 28px; padding: 6px; box-shadow: 0 8px 40px rgba(0,0,0,0.1); transition: background 0.3s, border-color 0.3s;
   }
-  .nav-bubble {
-    position: absolute; top: 6px; left: 6px; width: var(--nav-item-w); height: var(--nav-item-h); border-radius: 20px;
-    background: var(--nav-bubble); border: 1px solid var(--glass-border); box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px); pointer-events: none; z-index: 1; transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+
+  /* macOS Dock Animation */
+  .nav-item { 
+    width: var(--nav-item-w); height: var(--nav-item-h); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; position: relative; z-index: 2; border-radius: 20px; flex-shrink: 0; 
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
   }
-  .nav-item { width: var(--nav-item-w); height: var(--nav-item-h); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; position: relative; z-index: 2; overflow: hidden; border-radius: 20px; flex-shrink: 0; transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  
+  .nav-item.active {
+    transform: translateY(-15px) scale(1.2); 
+  }
+  
   .nav-item svg { width: 20px; height: 20px; }
   .nav-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.02em; transition: color 0.25s; color: var(--text-muted); }
   .icon-stroke { transition: stroke 0.25s; stroke: var(--icon-inactive); fill: none; }
@@ -355,8 +361,6 @@
 
 <nav class="nav-wrap">
   <div class="nav-container" id="navContainer">
-    <div class="nav-bubble" id="navBubble"></div>
-    
     <div class="nav-item active" id="nav-0" data-tab="tab-home">
       <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-stroke">
         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -512,28 +516,17 @@
   });
 
   // ─── NAVIGATION LOGIC ───
-  const ITEM_W = 66; 
   const navItems = [document.getElementById('nav-0'), document.getElementById('nav-1'), document.getElementById('nav-2'), document.getElementById('nav-3')];
   const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
   const navContainer = document.getElementById('navContainer');
-  const bubble = document.getElementById('navBubble');
-  let isDragging = false, dragStartX = 0, bubbleStartX = 0, currentBubbleX = 0;
-  const MIN_X = 0, MAX_X = (navItems.length - 1) * ITEM_W;
-
-  function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
-  function indexToX(i) { return i * ITEM_W; }
-  function applyX(x, animate) {
-    bubble.style.transition = animate ? 'transform 0.42s cubic-bezier(0.34,1.56,0.64,1), background 0.3s' : 'none';
-    bubble.style.transform = `translateX(${x}px)`; currentBubbleX = x;
-  }
-  function nearestIndex(x) {
-    let best = 0, bd = Infinity;
-    navItems.forEach((_, i) => { const d = Math.abs(x - indexToX(i)); if (d < bd) { bd = d; best = i; } });
-    return best;
-  }
+  
   function setIcons(idx) {
-    navItems.forEach((item, i) => { const on = i === idx; item.classList.toggle('active', on); item.style.transform = on ? 'scale(1.12)' : 'scale(1)'; });
+    navItems.forEach((item, i) => { 
+      const on = i === idx; 
+      item.classList.toggle('active', on); 
+    });
   }
+
   function showTab(idx) {
     const tabId = navItems[idx].dataset.tab;
     if (tabId) {
@@ -543,8 +536,8 @@
     }
   }
   
-  function goTo(i, animate = true) {
-    applyX(indexToX(i), animate); setIcons(i);
+  function goTo(i) {
+    setIcons(i);
     
     if (i === 1) { 
       closeThemePopup();
@@ -558,7 +551,7 @@
     }
   }
 
-  navItems.forEach((item, i) => { item.addEventListener('click', () => { if (!isDragging) goTo(i); }); });
+  navItems.forEach((item, i) => { item.addEventListener('click', () => { goTo(i); }); });
 
   // ─── HOME ANIMATIONS ───
   const homeInitial = document.getElementById('homeInitial');
@@ -594,20 +587,8 @@
     lastTap = now;
   });
 
-  // Nav Drag
-  navContainer.addEventListener('touchstart', e => {
-    dragStartX = e.touches[0].clientX; bubbleStartX = currentBubbleX; isDragging = false; bubble.style.transition = 'none';
-  }, { passive: true });
-  navContainer.addEventListener('touchmove', e => {
-    const dx = e.touches[0].clientX - dragStartX; if (Math.abs(dx) > 4) isDragging = true;
-    if (!isDragging) return;
-    const newX = clamp(bubbleStartX + dx, MIN_X, MAX_X);
-    bubble.style.transform = `translateX(${newX}px)`; currentBubbleX = newX; setIcons(nearestIndex(newX));
-  }, { passive: true });
-  navContainer.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; goTo(nearestIndex(currentBubbleX), true); }, { passive: true });
-
   // Initialize
-  applyX(0, false); setIcons(0);
+  setIcons(0);
   applyLang('en'); 
 
   // ─── IN-APP BROWSER LOGIC ───

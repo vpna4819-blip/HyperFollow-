@@ -1,659 +1,117 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="default">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>HyperFollow</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900&display=swap" rel="stylesheet">
-<style>
-  /* ─── PWA / APP STYLES ─── */
-  * { 
-    box-sizing: border-box; margin: 0; padding: 0; 
-    -webkit-tap-highlight-color: transparent; 
-    user-select: none; 
-    -webkit-user-select: none;
-    -webkit-touch-callout: none; 
-    outline: none; 
-  }
-  html, body { height: 100%; overscroll-behavior: none; }
-  ::-webkit-scrollbar { display: none; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Notice</title>
+    <style>
+        /* അടിസ്ഥാന സെറ്റിംഗ്സ് */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  /* ─── THEME VARIABLES ─── */
-  :root, :root[data-theme="default"] {
-    --bg: #0d0a1a; --text-main: #ffffff; --text-muted: rgba(255,255,255,0.45);
-    --glass-border: rgba(255,255,255,0.12); --glass-bg: rgba(255,255,255,0.06);
-    --header-bg: rgba(13, 10, 26, 0.6); --brand-grad: linear-gradient(270deg, #c084fc, #f472b6, #c084fc);
-    --btn-bg: rgba(255, 255, 255, 0.08); --btn-text: #ffffff; --btn-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    --nav-bg: rgba(255,255,255,0.05); --nav-bubble: linear-gradient(135deg, rgba(124,58,237,0.6), rgba(219,39,119,0.5));
-    --icon-inactive: rgba(255,255,255,0.38); --icon-active: #ffffff; --warn-bg: rgba(255, 30, 30, 0.09);
-    --orb-1: radial-gradient(circle, #7c3aed, transparent 70%); --orb-2: radial-gradient(circle, #db2777, transparent 70%); --orb-3: radial-gradient(circle, #a855f7, transparent 70%);
-    --nav-item-w: 66px; --nav-item-h: 56px; --font-head: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif; --header-h: 64px;
-  }
+        /* ആനിമേറ്റഡ് ഗ്രേഡിയന്റ് ബാക്ക്ഗ്രൗണ്ട് */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #ff4b2b, #ff416c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
 
-  :root[data-theme="dark"] {
-    --bg: #0e1621; --text-main: #ffffff; --text-muted: #8b9eb0; --glass-border: rgba(255,255,255,0.05);
-    --glass-bg: #17212b; --header-bg: rgba(23, 33, 43, 0.85); --brand-grad: linear-gradient(270deg, #64b5f6, #3b82f6, #64b5f6);
-    --btn-bg: #2b5278; --btn-text: #ffffff; --btn-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    --nav-bg: #17212b; --nav-bubble: #2b5278; --icon-inactive: #7f91a4; --icon-active: #64b5f6;
-    --warn-bg: rgba(239, 68, 68, 0.1); --orb-1: radial-gradient(circle, #1e2c3a, transparent 70%);
-    --orb-2: radial-gradient(circle, #242f3d, transparent 70%); --orb-3: radial-gradient(circle, #1a2430, transparent 70%);
-  }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-  :root[data-theme="light"] {
-    --bg: #e5e7eb; --text-main: #000000; --text-muted: #333333; --glass-border: rgba(0,0,0,0.15);
-    --glass-bg: #ffffff; --header-bg: rgba(255, 255, 255, 0.9); --brand-grad: linear-gradient(270deg, #4338ca, #7e22ce, #4338ca);
-    --btn-bg: #ffffff; --btn-text: #4338ca; --btn-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    --nav-bg: #ffffff; --nav-bubble: linear-gradient(135deg, rgba(67,56,202,0.15), rgba(126,34,206,0.15));
-    --icon-inactive: #6b7280; --icon-active: #4338ca; --warn-bg: rgba(239, 68, 68, 0.05);
-    --orb-1: radial-gradient(circle, #c7d2fe, transparent 70%); --orb-2: radial-gradient(circle, #e9d5ff, transparent 70%); --orb-3: radial-gradient(circle, #fbcfe8, transparent 70%);
-  }
+        /* ഗ്ലാസ്സ് മോഡൽ ബോക്സ് ഡിസൈൻ (Glassmorphism) */
+        .notice-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+        }
 
-  :root[data-theme="rgb"] {
-    --bg: #0a1128; --text-main: #ffffff; --text-muted: rgba(255,255,255,0.65); --glass-border: rgba(255,255,255,0.12);
-    --glass-bg: rgba(255,255,255,0.06); --header-bg: rgba(10, 17, 40, 0.6); --brand-grad: linear-gradient(270deg, #00f2fe, #4facfe, #00f2fe);
-    --btn-bg: rgba(255, 255, 255, 0.08); --btn-text: #ffffff; --btn-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    --nav-bg: rgba(255,255,255,0.05); --nav-bubble: linear-gradient(135deg, rgba(0,242,254,0.4), rgba(79,172,254,0.4));
-    --icon-inactive: rgba(255,255,255,0.38); --icon-active: #ffffff; --warn-bg: rgba(255, 30, 30, 0.09);
-    --orb-1: radial-gradient(circle, #00f2fe, transparent 70%); --orb-2: radial-gradient(circle, #4facfe, transparent 70%); --orb-3: radial-gradient(circle, #00c6fb, transparent 70%);
-  }
+        /* വാണിംഗ് ഐക്കൺ */
+        .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));
+        }
 
-  body { background: var(--bg); color: var(--text-main); font-family: var(--font-body); transition: background 0.3s ease, color 0.3s ease; }
+        /* മെസ്സേജ് ഗ്രൂപ്പുകൾ തമ്മിലുള്ള അകലം */
+        .message-group {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-  /* ─── BACKGROUND ORBS ─── */
-  .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  .orb { position: absolute; border-radius: 50%; opacity: 0.35; transition: background 0.5s ease; }
-  @keyframes driftDynamic { 0% { transform: translate(0, 0) scale(1); } 25% { transform: translate(60px, 30px) scale(1.08); } 50% { transform: translate(30px, 80px) scale(1.03); } 75% { transform: translate(-20px, 50px) scale(1.12); } 100% { transform: translate(0, 0) scale(1); } }
-  @keyframes colorShift { 0% { filter: blur(90px) hue-rotate(0deg); } 100% { filter: blur(90px) hue-rotate(360deg); } }
-  .orb-1 { width: 520px; height: 520px; background: var(--orb-1); top: -180px; left: -160px; animation: driftDynamic 16s ease-in-out infinite, colorShift 12s linear infinite; animation-delay: -2s; }
-  .orb-2 { width: 420px; height: 420px; background: var(--orb-2); top: 30%; right: -140px; animation: driftDynamic 12s ease-in-out infinite, colorShift 18s linear infinite; animation-delay: -5s; }
-  .orb-3 { width: 360px; height: 360px; background: var(--orb-3); bottom: 80px; left: 20%; animation: driftDynamic 14s ease-in-out infinite, colorShift 15s linear infinite; animation-delay: -8s; }
+        .message-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
 
-  /* ─── HEADER ─── */
-  .header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--header-h); background: var(--header-bg);
-    backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid var(--glass-border); box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-    display: flex; align-items: center; justify-content: center; padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); transition: background 0.3s ease, border-color 0.3s ease;
-  }
-  .header-brand { display: flex; align-items: center; justify-content: center; gap: 0; text-decoration: none; padding: 5px 15px; border-radius: 12px; cursor: pointer; position: relative; }
-  @keyframes textGradientAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-  .brand-name {
-    font-family: var(--font-body); font-weight: 900; font-size: 2.5rem; line-height: 1;
-    background: var(--brand-grad); background-size: 200% 200%; animation: textGradientAnim 4s ease infinite;
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; transition: background 0.3s ease;
-  }
+        /* ഭാഷ കാണിക്കുന്ന ലേബൽ */
+        .lang-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            color: #ffdda1;
+            font-weight: bold;
+        }
 
-  /* ─── PAGE LAYOUT ─── */
-  .page-wrapper { position: relative; z-index: 1; min-height: 100dvh; padding-top: var(--header-h); display: flex; flex-direction: column; }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex: 1; text-align: center; position: relative; overflow: hidden; }
+        /* മെസ്സേജ് ടെക്സ്റ്റ് */
+        .content {
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
 
-  .home-initial-container {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center;
-    overflow-y: auto; overflow-x: hidden; padding-top: 15px; padding-bottom: calc(max(20px, env(safe-area-inset-bottom)) + 100px);
-  }
-
-  .dev-info-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 28px; flex-shrink: 0; }
-  .dev-box {
-    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); border-radius: 12px; padding: 10px 18px; text-align: center;
-    font-size: 0.75rem; color: var(--text-main); box-shadow: 0 4px 20px rgba(0,0,0,0.1); line-height: 1.6; font-weight: 500; transition: background 0.3s, border-color 0.3s, color 0.3s;
-  }
-
-  .home-center-group { display: flex; flex-direction: column; align-items: center; flex: 1; justify-content: center; width: 100%; min-height: min-content; padding: 10px 0; }
-  .hero-logo { height: 210px; width: auto; display: block; flex-shrink: 0; margin: 0 0 -25px 0; object-fit: contain; max-height: 35vh; }
-
-  .warning-text {
-    width: calc(100% - 40px); margin-top: 25px; margin-bottom: 0; flex-shrink: 0; text-align: center; padding: 14px 20px;
-    line-height: 1.6; font-size: 0.74rem; font-family: var(--font-body); color: var(--text-muted); font-weight: 500; letter-spacing: 0.01em;
-    background: var(--warn-bg); border: 1px solid var(--glass-border); border-radius: 16px; z-index: 10; height: auto; transition: background 0.3s, color 0.3s;
-  }
-  .warning-text .warn-title { display: block; color: rgba(255, 210, 50, 1); font-weight: 800; font-size: 0.79rem; margin-bottom: 5px; text-transform: uppercase; }
-  .warning-text .warn-line { display: block; margin-bottom: 3px; }
-  .warning-text .warn-line strong { color: var(--text-main); transition: color 0.3s; }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes homeExitUp { 0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); } 100% { opacity: 0; transform: translateY(-50px) scale(0.96); filter: blur(6px); } }
-  @keyframes homeEnterDown { 0% { opacity: 0; transform: translateY(-50px) scale(0.96); filter: blur(6px); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); } }
-  .home-exit-up { animation: homeExitUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
-  .home-enter-down { animation: homeEnterDown 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-
-  /* ─── SERVER CONTAINER ─── */
-  .home-servers-container {
-    display: none; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px;
-    width: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    padding-top: 20px; padding-bottom: calc(120px + env(safe-area-inset-bottom)); overflow-y: auto;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black calc(100% - 130px - env(safe-area-inset-bottom)), transparent calc(100% - env(safe-area-inset-bottom)));
-    mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black calc(100% - 130px - env(safe-area-inset-bottom)), transparent calc(100% - env(safe-area-inset-bottom)));
-  }
-  .home-servers-container::after { content: ''; display: block; height: calc(60px + env(safe-area-inset-bottom)); flex-shrink: 0; }
-
-  @keyframes serverEnterUp { 0% { opacity: 0; transform: translateY(50px); filter: blur(4px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
-  @keyframes serverExitDown { 0% { opacity: 1; transform: translateY(0); filter: blur(0); } 100% { opacity: 0; transform: translateY(50px); filter: blur(4px); } }
-  .server-btn { opacity: 0; width: 90%; max-width: 350px; padding: 22px 24px !important; font-size: 1.15rem !important; border-radius: 20px !important; flex-shrink: 0; }
-  .show-servers .server-btn { animation: serverEnterUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: calc(var(--i) * 0.05s); }
-  .hide-servers-down .server-btn { animation: serverExitDown 0.3s ease-in both; animation-delay: calc((4 - var(--i)) * 0.02s); }
-
-  /* ─── GLOWING GLASS BUTTONS ─── */
-  @keyframes btnGlow {
-    0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), 0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(219, 39, 119, 0.2), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1); }
-    50%      { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), 0 0 40px rgba(124, 58, 237, 0.7), 0 0 70px rgba(219, 39, 119, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.25); }
-  }
-  @keyframes shimmer { 0% { left: -60%; } 50%, 100% { left: 120%; } }
-  .btn-primary {
-    position: relative; overflow: hidden;
-    background: var(--btn-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px) saturate(180%);
-    border-radius: 50px; padding: 16px 44px; color: var(--btn-text); font-family: var(--font-body); font-size: 1rem; font-weight: 600;
-    cursor: pointer; letter-spacing: 0.02em; transition: transform 0.18s, background-color 0.3s, color 0.3s, border-color 0.3s;
-    animation: btnGlow 2.5s ease-in-out infinite; 
-  }
-  .btn-primary::after {
-    content: ''; position: absolute; top: -50%; left: -60%; width: 40%; height: 200%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
-    transform: skewX(-20deg); animation: shimmer 3s ease-in-out infinite; pointer-events: none;
-  }
-  .btn-primary:active { transform: scale(0.96) !important; background-color: rgba(255, 255, 255, 0.1); }
-
-  /* ─── BOTTOM NAV ─── */
-  .nav-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: center; align-items: flex-end; padding-bottom: max(20px, env(safe-area-inset-bottom)); pointer-events: none; }
-  .nav-container {
-    pointer-events: all; display: flex; align-items: center; position: relative; 
-    overflow: visible; 
-    background: var(--nav-bg); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
-    border: 1px solid var(--glass-border); border-radius: 28px; padding: 6px; box-shadow: 0 8px 40px rgba(0,0,0,0.1); transition: background 0.3s, border-color 0.3s;
-  }
-
-  /* macOS Dock Animation */
-  .nav-item { 
-    width: var(--nav-item-w); height: var(--nav-item-h); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; position: relative; z-index: 2; border-radius: 20px; flex-shrink: 0; 
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-  }
-  
-  .nav-item.active {
-    transform: translateY(-15px) scale(1.2); 
-  }
-  
-  .nav-item svg { width: 20px; height: 20px; }
-  .nav-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.02em; transition: color 0.25s; color: var(--text-muted); }
-  .icon-stroke { transition: stroke 0.25s; stroke: var(--icon-inactive); fill: none; }
-  .nav-item.active .icon-stroke { stroke: var(--icon-active); }
-  .nav-item.active .nav-label { color: var(--text-main); }
-
-  /* ─── POPUP OVERLAYS ─── */
-  .popup-overlay {
-    position: fixed; inset: 0; z-index: 190;
-    background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    opacity: 0; pointer-events: none; transition: opacity 0.22s ease;
-  }
-  .popup-overlay.open { opacity: 1; pointer-events: all; }
-
-  .custom-popup {
-    position: fixed; z-index: 195; background: var(--glass-bg);
-    backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
-    border: 1px solid var(--glass-border); border-radius: 20px; padding: 10px;
-    display: flex; flex-direction: column; gap: 8px; min-width: 200px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.3); opacity: 0; pointer-events: none;
-    transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
-    bottom: calc(max(20px, env(safe-area-inset-bottom)) + 80px); left: 50%; transform: translateX(-50%) translateY(16px);
-  }
-  .custom-popup.open { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
-
-  .popup-option {
-    display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 18px; border-radius: 12px; cursor: pointer;
-    font-size: 0.95rem; font-weight: 600; color: var(--text-main); transition: background 0.15s, color 0.15s, opacity 0.2s; border: 1px solid transparent;
-  }
-  .popup-option:hover, .popup-option:active { background: var(--glass-border); }
-  .popup-option.selected { background: var(--nav-bubble); border-color: var(--glass-border); color: #ffffff; }
-  .opt-text { text-align: center; }
-
-  /* ─── SAFETY CENTER TAB ─── */
-  .safety-wrapper {
-    width: 92%; max-width: 600px; margin: 20px auto; padding: 25px 20px;
-    background: var(--glass-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-    border: 1px solid var(--glass-border); border-radius: 24px; color: var(--text-main); text-align: left;
-    overflow-y: auto; max-height: calc(100dvh - 180px - env(safe-area-inset-bottom));
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-  .safety-wrapper::-webkit-scrollbar { display: none; }
-  
-  .sf-title { font-size: 1.5rem; text-align: center; margin-bottom: 12px; color: var(--btn-text); font-weight: 800; font-family: var(--font-body); }
-  .sf-desc { font-size: 0.85rem; margin-bottom: 20px; line-height: 1.6; color: var(--text-muted); text-align: center; font-weight: 500; }
-  
-  .sf-section { margin-bottom: 18px; background: rgba(0,0,0,0.15); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-  .sf-section h3 { font-size: 0.95rem; margin-bottom: 8px; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  .sf-section h3::before { content: ''; display: block; width: 6px; height: 6px; background: #c084fc; border-radius: 50%; box-shadow: 0 0 10px #c084fc; }
-  .sf-section p { font-size: 0.82rem; line-height: 1.7; color: var(--text-muted); }
-  .sf-section ul { padding-left: 15px; margin-top: 10px; list-style-type: none; }
-  .sf-section li { margin-bottom: 8px; font-size: 0.82rem; line-height: 1.6; color: var(--text-muted); position: relative; padding-left: 15px; }
-  .sf-section li::before { content: '→'; position: absolute; left: 0; color: #c084fc; font-weight: bold; }
-  .sf-section li strong { color: var(--text-main); }
-
-  /* ─── IN-APP BROWSER (FULL SCREEN, NO BLACK HEADER) ─── */
-  .in-app-browser {
-    position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: none; 
-    transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); overflow: hidden; touch-action: none;
-  }
-  .in-app-browser.open { transform: translateX(0); }
-
-  .loader-container { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; background: var(--bg); z-index: 5; }
-  .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-left-color: #c084fc; border-radius: 50%; animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Floating UI Instead of Black Header */
-  .float-back {
-    position: absolute; bottom: calc(env(safe-area-inset-bottom, 20px) + 20px); left: 20px; z-index: 100;
-    background: rgba(13, 10, 26, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 18px; border-radius: 30px;
-    display: flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  }
-  .float-back svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  
-  .float-ig {
-    position: absolute; bottom: calc(env(safe-area-inset-bottom, 20px) + 20px); right: 20px; z-index: 100;
-    background: linear-gradient(135deg, #7c3aed, #db2777); border: 1px solid rgba(255,255,255,0.3); 
-    width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 32px rgba(219,39,119,0.4);
-  }
-  .float-ig svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 2; }
-  
-  /* Iframe takes true full screen */
-  #browserFrame { 
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; border: none; background: #fff; 
-    z-index: 1; opacity: 0; transition: opacity 0.4s;
-  }
-  #browserFrame.loaded { opacity: 1; }
-</style>
+        .malayalam { 
+            font-size: 17px; 
+        }
+    </style>
 </head>
 <body>
 
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-
-<div class="popup-overlay" id="langOverlay"></div>
-<div class="custom-popup" id="langPopup">
-  <div class="popup-option selected" id="langEn" data-lang="en"><span class="opt-text">English</span></div>
-  <div class="popup-option" id="langMl" data-lang="ml"><span class="opt-text">മലയാളം</span></div>
-  <div class="popup-option" id="langManglish" data-lang="manglish"><span class="opt-text">Manglish</span></div>
-</div>
-
-<div class="popup-overlay" id="themeOverlay"></div>
-<div class="custom-popup" id="themePopup">
-  <div class="popup-option" data-theme="dark"><span class="opt-text">Dark Theme</span></div>
-  <div class="popup-option" data-theme="light"><span class="opt-text">White Theme</span></div>
-  <div class="popup-option" data-theme="rgb"><span class="opt-text">RGB Theme</span></div>
-  <div class="popup-option selected" data-theme="default"><span class="opt-text">In-built Theme</span></div>
-</div>
-
-<header class="header">
-  <a class="header-brand" id="headerText" href="#">
-    <span class="brand-name">HyperFollow</span>
-  </a>
-</header>
-
-<div class="page-wrapper" id="pageWrapper">
-  
-  <div class="tab-panel active" id="tab-home">
-    <div class="home-initial-container" id="homeInitial">
-      <div class="dev-info-wrapper">
-        <div class="dev-box" id="devBox">
-          <span id="txt-devLine1">Lead Developer | Samad</span><br>
-          <span id="txt-devLine2">Code Architect | Artificial Intelligence</span>
+    <div class="notice-box">
+        <!-- ഐക്കൺ -->
+        <div class="icon">⚠️</div>
+        
+        <!-- ഇംഗ്ലീഷ് മെസ്സേജ് -->
+        <div class="message-group">
+            <div class="lang-label">English</div>
+            <div class="content">Operations suspended. Services have been halted due to technical issues and other reasons. Services might resume later.</div>
         </div>
-      </div>
 
-      <div class="home-center-group">
-        <img class="hero-logo" id="heroLogo" src="https://i.ibb.co/VYDvqK3c/logo.png" alt="HyperFollow">
-        <button class="btn-primary" id="getStartedBtn" data-key="getStarted">Get Started Free</button>
-      </div>
+        <!-- മലയാളം മെസ്സേജ് -->
+        <div class="message-group">
+            <div class="lang-label">Malayalam</div>
+            <div class="content malayalam">പ്രവർത്തനം താൽക്കാലികമായി നിർത്തിവെച്ചിരിക്കുന്നു. സാങ്കേതിക തകരാറുകളും മറ്റ് കാരണങ്ങളും കൊണ്ട് സേവനങ്ങൾ അവസാനിപ്പിച്ചു. പിന്നീട് സേവനം പുനരാരംഭിച്ചേക്കാം.</div>
+        </div>
 
-      <div class="warning-text" id="warningBox">
-        <span class="warn-title" id="txt-warnTitle">⚠️ WARNING: PROTECT YOUR ACCOUNT</span>
-        <span class="warn-line" id="txt-warnLine1"><strong>Login:</strong> Use a FAKE account only. Never use your real password.</span>
-        <span class="warn-line" id="txt-warnLine2"><strong>Followers:</strong> Enter your REAL username only.</span>
-        <span class="warn-line" id="txt-warnLine3"><strong>Risk:</strong> Providing original credentials will lead to account hacking.</span>
-      </div>
+        <!-- മംഗ്ലീഷ് മെസ്സേജ് -->
+        <div class="message-group">
+            <div class="lang-label">Manglish</div>
+            <div class="content">Pravarthanam thalkalikamayi nirthivechirikkunnu. Sankethika thakararukalum mattu karanangalum kondu sevanangal avasanippichu. Pinnedu sevanam punararambhichekkam.</div>
+        </div>
     </div>
 
-    <div class="home-servers-container" id="homeServers">
-      <button class="btn-primary server-btn" style="--i: 1;" onclick="window.openServer('https://takipcimx.net/tools/send-follower/70220054978')">Turbo Server</button>
-      <button class="btn-primary server-btn" style="--i: 2;" onclick="window.openServer('https://fastfollow.in/tools/send-follower/70220054978')">Velocity Server</button>
-      <button class="btn-primary server-btn" style="--i: 3;" onclick="window.openServer('https://takipcitime.com/tools/send-follower/70220054978')">Apex Server</button>
-      <button class="btn-primary server-btn" style="--i: 4;" onclick="window.openServer('https://takipcitime.com/tools/send-follower/70220054978')">Titan Server</button>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="tab-security">
-    <div class="safety-wrapper">
-      <h2 class="sf-title" id="sf-title">Safety Center</h2>
-      <p class="sf-desc" id="sf-desc">Please read and understand the following safety guidelines before using HyperFollow:</p>
-      
-      <div class="sf-section">
-        <h3 id="sf-h1">1. Role of HyperFollow:</h3>
-        <p id="sf-p1">HyperFollow is not a social media service provider. It is merely a platform that connects various third-party follower servers available on the internet in one place. The sole purpose of this app is to help you find these services easily.</p>
-      </div>
-
-      <div class="sf-section">
-        <h3 id="sf-h2">2. Your Data is Secure:</h3>
-        <p id="sf-p2">HyperFollow does not ask for or collect any of your personal information (username, password, location, etc.). Your privacy is important to us.</p>
-      </div>
-
-      <div class="sf-section">
-        <h3 id="sf-h3">3. Login Information and Third-Party Websites:</h3>
-        <p id="sf-p3">When you click on each server in the app, you are entering another website. The login information asked there is under the control of those websites. Keep the following in mind when logging into such websites:</p>
-        <ul>
-          <li id="sf-l1"><strong>Do not use original account:</strong> Never log in using the password of your main Instagram account.</li>
-          <li id="sf-l2"><strong>Fake account is mandatory:</strong> Create a new (Fake/Dummy) account solely for logging in. After logging in using that account, send the followers to your original ID.</li>
-          <li id="sf-l3"><strong>Account Security:</strong> Providing original account details on such sites may lead to your account being hacked.</li>
-        </ul>
-      </div>
-
-      <div class="sf-section">
-        <h3 id="sf-h4">4. Liability:</h3>
-        <p id="sf-p4">HyperFollow or its developer will not be responsible for any hacking, suspension, or other issues that may happen to your accounts due to the use of third-party websites. Use these services solely at your own risk.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<nav class="nav-wrap">
-  <div class="nav-container" id="navContainer">
-    <div class="nav-item active" id="nav-0" data-tab="tab-home">
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-stroke">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      <span class="nav-label" id="nav-label-home">Home</span>
-    </div>
-    
-    <div class="nav-item" id="nav-1">
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-stroke">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-      </svg>
-      <span class="nav-label" id="nav-label-lang">Language</span>
-    </div>
-
-    <div class="nav-item" id="nav-2">
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-stroke">
-        <path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/>
-        <path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/>
-      </svg>
-      <span class="nav-label" id="nav-label-theme">Theme</span>
-    </div>
-    
-    <div class="nav-item" id="nav-3" data-tab="tab-security">
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-stroke">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-      <span class="nav-label" id="nav-label-safety">Safety</span>
-    </div>
-  </div>
-</nav>
-
-<div class="in-app-browser" id="inAppBrowser">
-  <div class="loader-container" id="iframeLoader">
-    <div class="spinner"></div>
-  </div>
-  
-  <iframe id="browserFrame" src=""></iframe>
-  
-  <button class="float-back" id="closeBrowserBtn">
-    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back
-  </button>
-  <div class="float-ig" id="igBtn">
-    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-    </svg>
-  </div>
-</div>
-
-<script>
-(() => {
-  // ─── TRANSLATIONS ───
-  const TRANSLATIONS = {
-    en: { 
-      getStarted: 'Get Started Free', devLine1: 'Lead Developer | Samad', devLine2: 'Code Architect | Artificial Intelligence', 
-      warnTitle: '⚠️ WARNING: PROTECT YOUR ACCOUNT', warnLine1: '<strong>Login:</strong> Use a FAKE account only. Never use your real password.', warnLine2: '<strong>Followers:</strong> Enter your REAL username only.', warnLine3: '<strong>Risk:</strong> Providing original credentials will lead to account hacking.', 
-      navHome: 'Home', navLang: 'Language', navTheme: 'Theme', navSafety: 'Safety',
-      sfTitle: "Safety Center", sfDesc: "Please read and understand the following safety guidelines before using HyperFollow:",
-      sfH1: "1. Role of HyperFollow:", sfP1: "HyperFollow is not a social media service provider. It is merely a platform that connects various third-party follower servers available on the internet in one place. The sole purpose of this app is to help you find these services easily.",
-      sfH2: "2. Your Data is Secure:", sfP2: "HyperFollow does not ask for or collect any of your personal information (username, password, location, etc.). Your privacy is important to us.",
-      sfH3: "3. Login Information and Third-Party Websites:", sfP3: "When you click on each server in the app, you are entering another website. The login information asked there is under the control of those websites. Keep the following in mind when logging into such websites:",
-      sfL1: "<strong>Do not use original account:</strong> Never log in using the password of your main Instagram account.", sfL2: "<strong>Fake account is mandatory:</strong> Create a new (Fake/Dummy) account solely for logging in. After logging in using that account, send the followers to your original ID.", sfL3: "<strong>Account Security:</strong> Providing original account details on such sites may lead to your account being hacked.",
-      sfH4: "4. Liability:", sfP4: "HyperFollow or its developer will not be responsible for any hacking, suspension, or other issues that may happen to your accounts due to the use of third-party websites. Use these services solely at your own risk."
-    },
-    ml: { 
-      getStarted: 'സൗജന്യമായി തുടങ്ങൂ', devLine1: 'പ്രധാന ഡെവലപ്പർ | സമദ്', devLine2: 'കോഡ് ആർക്കിടെക്ട് | ആർട്ടിഫിഷ്യൽ ഇന്റലിജൻസ്', 
-      warnTitle: '⚠️ മുന്നറിയിപ്പ്: നിങ്ങളുടെ അക്കൗണ്ട് സംരക്ഷിക്കുക', warnLine1: '<strong>ലോഗിൻ:</strong> വ്യാജ അക്കൗണ്ട് മാത്രം ഉപയോഗിക്കുക. ഒരിക്കലും യഥാർഥ പാസ്‌വേഡ് നൽകരുത്.', warnLine2: '<strong>ഫോളോവേഴ്സ്:</strong> നിങ്ങളുടെ യഥാർഥ യൂസർനെയിം മാത്രം നൽകുക.', warnLine3: '<strong>അപകടം:</strong> യഥാർഥ ക്രെഡൻഷ്യൽ നൽകിയാൽ അക്കൗണ്ട് ഹാക്ക് ആകും.', 
-      navHome: 'ഹോം', navLang: 'ഭാഷ', navTheme: 'തീം', navSafety: 'സുരക്ഷ',
-      sfTitle: "സേഫ്റ്റി സെന്റർ (Safety Center)", sfDesc: "ഹൈപ്പർ ഫോളോവേഴ്സ് (HyperFollow) ഉപയോഗിക്കുന്നതിന് മുൻപ് താഴെ പറയുന്ന സുരക്ഷാ നിർദ്ദേശങ്ങൾ നിർബന്ധമായും വായിച്ചു മനസ്സിലാക്കുക:",
-      sfH1: "1. ഹൈപ്പർ ഫോളോവേഴ്സിന്റെ ധർമ്മം:", sfP1: "ഹൈപ്പർ ഫോളോവേഴ്സ് ഒരു സോഷ്യൽ മീഡിയ സർവീസ് പ്രൊവൈഡർ അല്ല. ഇന്റർനെറ്റിൽ ലഭ്യമായ വിവിധ തേർഡ് പാർട്ടി ഫോളോവർ സർവറുകളെ ഒരിടത്ത് കോർത്തിണക്കുന്ന ഒരു പ്ലാറ്റ്‌ഫോം മാത്രമാണിത്. നിങ്ങൾക്ക് എളുപ്പത്തിൽ ഈ സേവനങ്ങൾ കണ്ടെത്താൻ സഹായിക്കുക എന്നത് മാത്രമാണ് ഈ ആപ്പിന്റെ ലക്ഷ്യം.",
-      sfH2: "2. നിങ്ങളുടെ ഡാറ്റ സുരക്ഷിതമാണ്:", sfP2: "ഹൈപ്പർ ഫോളോവേഴ്സ് നിങ്ങളുടെ ഒരു വിവരവും (യൂസർനെയിം, പാസ്‌വേഡ്, ലൊക്കേഷൻ തുടങ്ങിയവ) ചോിക്കുകയോ ശേഖരിക്കുകയോ ചെയ്യുന്നില്ല. നിങ്ങളുടെ സ്വകാര്യത ഞങ്ങൾക്ക് പ്രധാനമാണ്.",
-      sfH3: "3. ലോഗിൻ വിവരങ്ങളും തേർഡ് പാർട്ടി വെബ്‌സൈറ്റുകളും:", sfP3: "ആപ്പിലെ ഓരോ സർവറും ക്ലിക്ക് ചെയ്യുമ്പോൾ നിങ്ങൾ പ്രവേശിക്കുന്നത് മറ്റൊരു വെബ്‌സൈറ്റിലേക്കാണ്. അവിടെ ചോദിക്കുന്ന ലോഗിൻ വിവരങ്ങൾ ആ വെബ്‌സൈറ്റുകളുടെ നിയന്ത്രണത്തിലാണ്. ഇത്തരം വെബ്‌സൈറ്റുകളിൽ ലോഗിൻ ചെയ്യുമ്പോൾ താഴെ പറയുന്ന കാര്യങ്ങൾ ശ്രദ്ധിക്കുക:",
-      sfL1: "<strong>ഒറിജിനൽ അക്കൗണ്ട് ഉപയോഗിക്കരുത്:</strong> നിങ്ങളുടെ പ്രധാന ഇൻസ്റ്റാഗ്രാം അക്കൗണ്ടിന്റെ പാസ്‌വേഡ് ഉപയോഗിച്ച് ഒരിക്കലും ലോഗിൻ ചെയ്യരുത്.", sfL2: "<strong>ഫേക്ക് അക്കൗണ്ട് നിർബന്ധം:</strong> ലോഗിൻ ചെയ്യാൻ വേണ്ടി മാത്രം ഒരു പുതിയ (Fake/Dummy) അക്കൗണ്ട് നിർമ്മിക്കുക. ആ അക്കൗണ്ട് ഉപയോഗിച്ച് ലോഗിൻ ചെയ്ത ശേഷം, ഫോളോവേഴ്‌സിനെ നിങ്ങളുടെ ഒറിജിനൽ ഐഡിയിലേക്ക് അയക്കുക.", sfL3: "<strong>അക്കൗണ്ട് സുരക്ഷ:</strong> ഒറിജിനൽ അക്കൗണ്ട് വിവരങ്ങൾ ഇത്തരം സൈറ്റുകളിൽ നൽകുന്നത് അക്കൗണ്ട് ഹാക്ക് ചെയ്യപ്പെടാൻ കാരണമായേക്കാം.",
-      sfH4: "4. ഉത്തരവാദിത്തം (Liability):", sfP4: "തേർഡ് പാർട്ടി വെബ്‌സൈറ്റുകൾ ഉപയോഗിക്കുന്നത് വഴി നിങ്ങളുടെ അക്കൗണ്ടുകൾക്ക് സംഭവിക്കാവുന്ന ഹാക്കിംഗ്, സസ്പെൻഷൻ അല്ലെങ്കിൽ മറ്റ് പ്രശ്നങ്ങൾക്ക് ഹൈപ്പർ ഫോളോവേഴ്സോ അതിന്റെ ഡെവലപ്പറോ ഉത്തരവാദിയായിരിക്കില്ല. നിങ്ങൾ സ്വന്തം ഉത്തരവാദിത്തത്തിൽ മാത്രം ഈ സേവനങ്ങൾ ഉപയോഗിക്കുക."
-    },
-    manglish: { 
-      getStarted: 'Get Started Free', devLine1: 'Pradhana Developer | Samad', devLine2: 'Code Architect | Artificial Intelligence', 
-      warnTitle: '⚠️ MUNNARIYIPPU: ACCOUNT SAMRAKSHIKKUKA', warnLine1: '<strong>Login:</strong> Vyaja account mathram upayogikkuka. Orikkalum yathartha password nalkaruth.', warnLine2: '<strong>Followers:</strong> Yathartha username mathram nalkuka.', warnLine3: '<strong>Apakadam:</strong> Yathartha credential nalkiyal account hack aakum.', 
-      navHome: 'Home', navLang: 'Language', navTheme: 'Theme', navSafety: 'Safety',
-      sfTitle: "Safety Center", sfDesc: "HyperFollow upayogikkunnathinu munp thazhe parayunna suraksha nirdheshangal nirbandhamayum vayichu manassilakkuka:",
-      sfH1: "1. HyperFollow-inte Dharmam:", sfP1: "HyperFollow oru social media service provider alla. Internet-il labhyamaya vividha third-party follower server-ukale oridathu korthinakkunna oru platform mathramanith. Ningalkku eluppathil ee sevanangal kandethan sahayikkuka ennathu mathramanu ee app-inte lakshyam.",
-      sfH2: "2. Ningalude Data Surakshithamanu:", sfP2: "HyperFollow ningalude oru vivaravum (username, password, location thudangiyava) chodhikkukayo shekharikkukayo cheyyunnilla. Ningalude swakaryatha njangalkku pradhanamanu.",
-      sfH3: "3. Login Vivarangalum Third Party Website-ukalum:", sfP3: "App-ile oro server-um click cheyyumbol ningal praveshikkunnathu mattoru website-ilekkanu. Avide chodhikkunna login vivarangal aa website-ukalude niyanthranathilanu. Itharram website-ukalil login cheyyumbol thazhe parayunna karyangal shraddhikkuka:",
-      sfL1: "<strong>Original account upayogikkaruthu:</strong> Ningalude pradhana Instagram account-inte password upayogichu orikkalum login cheyyaruthu.", sfL2: "<strong>Fake account nirbandham:</strong> Login cheyyan vendi mathram oru puthiya (Fake/Dummy) account nirmikkuka. Aa account upayogichu login cheytha shesham, followers-ine ningalude original ID-yilekku ayakkuka.", sfL3: "<strong>Account Suraksha:</strong> Original account vivarangal itharam site-ukalil nalkunnathu account hack cheyyappedan karanamayekkam.",
-      sfH4: "4. Utharavaditham (Liability):", sfP4: "Third party website-ukal upayogikkunnathu vazhi ningalude account-ukalkku sambhavikkavunna hacking, suspension allenkil matte prashnangalkku HyperFollow-o athinte developer-o utharavadiyayirikkilla. Ningal swantham utharavadithathil mathram ee sevanangal upayogikkuka."
-    }
-  };
-
-  function applyLang(lang) {
-    const t = TRANSLATIONS[lang];
-    document.getElementById('getStartedBtn').textContent = t.getStarted;
-    document.getElementById('txt-devLine1').textContent = t.devLine1;
-    document.getElementById('txt-devLine2').textContent = t.devLine2;
-    document.getElementById('txt-warnTitle').textContent = t.warnTitle;
-    document.getElementById('txt-warnLine1').innerHTML = t.warnLine1;
-    document.getElementById('txt-warnLine2').innerHTML = t.warnLine2;
-    document.getElementById('txt-warnLine3').innerHTML = t.warnLine3;
-    document.getElementById('nav-label-home').textContent = t.navHome;
-    document.getElementById('nav-label-lang').textContent = t.navLang;
-    document.getElementById('nav-label-theme').textContent = t.navTheme;
-    document.getElementById('nav-label-safety').textContent = t.navSafety;
-    
-    document.getElementById('sf-title').textContent = t.sfTitle;
-    document.getElementById('sf-desc').textContent = t.sfDesc;
-    document.getElementById('sf-h1').textContent = t.sfH1; document.getElementById('sf-p1').textContent = t.sfP1;
-    document.getElementById('sf-h2').textContent = t.sfH2; document.getElementById('sf-p2').textContent = t.sfP2;
-    document.getElementById('sf-h3').textContent = t.sfH3; document.getElementById('sf-p3').textContent = t.sfP3;
-    document.getElementById('sf-l1').innerHTML = t.sfL1; document.getElementById('sf-l2').innerHTML = t.sfL2; document.getElementById('sf-l3').innerHTML = t.sfL3;
-    document.getElementById('sf-h4').textContent = t.sfH4; document.getElementById('sf-p4').textContent = t.sfP4;
-
-    document.querySelectorAll('#langPopup .popup-option').forEach(el => el.classList.remove('selected'));
-    const activeLangEl = document.getElementById(lang === 'ml' ? 'langMl' : (lang === 'en' ? 'langEn' : 'langManglish'));
-    if(activeLangEl) activeLangEl.classList.add('selected');
-  }
-
-  // ─── POPUP LOGIC ───
-  const langOverlay = document.getElementById('langOverlay');
-  const langPopup   = document.getElementById('langPopup');
-  const themeOverlay = document.getElementById('themeOverlay');
-  const themePopup   = document.getElementById('themePopup');
-
-  function openLangPopup() { langPopup.classList.add('open'); langOverlay.classList.add('open'); }
-  function closeLangPopup() { langPopup.classList.remove('open'); langOverlay.classList.remove('open'); }
-  langOverlay.addEventListener('click', closeLangPopup);
-  
-  function openThemePopup() { themePopup.classList.add('open'); themeOverlay.classList.add('open'); }
-  function closeThemePopup() { themePopup.classList.remove('open'); themeOverlay.classList.remove('open'); }
-  themeOverlay.addEventListener('click', closeThemePopup);
-
-  function handleOptionClick(e, type, value) {
-    if (type === 'lang') { 
-        applyLang(value); 
-        closeLangPopup(); 
-    } else if (type === 'theme') {
-        document.documentElement.setAttribute('data-theme', value);
-        document.querySelectorAll('#themePopup .popup-option').forEach(o => o.classList.remove('selected'));
-        e.currentTarget.classList.add('selected');
-        closeThemePopup();
-    }
-    goTo(0);
-  }
-
-  document.getElementById('langEn').addEventListener('click', (e) => handleOptionClick(e, 'lang', 'en'));
-  document.getElementById('langMl').addEventListener('click', (e) => handleOptionClick(e, 'lang', 'ml'));
-  document.getElementById('langManglish').addEventListener('click', (e) => handleOptionClick(e, 'lang', 'manglish'));
-  
-  document.querySelectorAll('#themePopup .popup-option').forEach(opt => {
-    opt.addEventListener('click', (e) => handleOptionClick(e, 'theme', opt.dataset.theme));
-  });
-
-  // ─── NAVIGATION LOGIC ───
-  const navItems = [document.getElementById('nav-0'), document.getElementById('nav-1'), document.getElementById('nav-2'), document.getElementById('nav-3')];
-  const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
-  const navContainer = document.getElementById('navContainer');
-  
-  function setIcons(idx) {
-    navItems.forEach((item, i) => { 
-      const on = i === idx; 
-      item.classList.toggle('active', on); 
-    });
-  }
-
-  function showTab(idx) {
-    const tabId = navItems[idx].dataset.tab;
-    if (tabId) {
-        tabPanels.forEach(p => p.classList.remove('active'));
-        const panel = document.getElementById(tabId);
-        if (panel) panel.classList.add('active');
-    }
-  }
-  
-  function goTo(i) {
-    setIcons(i);
-    
-    if (i === 1) { 
-      closeThemePopup();
-      if (!langPopup.classList.contains('open')) openLangPopup(); else closeLangPopup();
-    } else if (i === 2) {
-      closeLangPopup();
-      if (!themePopup.classList.contains('open')) openThemePopup(); else closeThemePopup();
-    } else { 
-      closeLangPopup(); closeThemePopup();
-      showTab(i); 
-    }
-  }
-
-  navItems.forEach((item, i) => { item.addEventListener('click', () => { goTo(i); }); });
-
-  // ─── HOME ANIMATIONS ───
-  const homeInitial = document.getElementById('homeInitial');
-  const homeServers = document.getElementById('homeServers');
-  const warningBox  = document.getElementById('warningBox');
-
-  document.getElementById('getStartedBtn').addEventListener('click', () => {
-    warningBox.style.opacity = '0';
-    homeInitial.className = 'home-initial-container home-exit-up';
-    setTimeout(() => {
-      homeInitial.style.display = 'none';
-      homeServers.style.display = 'flex';
-      homeServers.className = 'home-servers-container show-servers';
-      homeServers.querySelectorAll('.server-btn').forEach(b => { b.style.animation = ''; });
-    }, 350); 
-  });
-
-  function resetHomeState() {
-    homeServers.className = 'home-servers-container hide-servers-down';
-    setTimeout(() => {
-      homeServers.style.display = 'none';
-      homeInitial.style.display = 'flex';
-      homeInitial.className = 'home-initial-container home-enter-down';
-      warningBox.style.opacity = '1';
-    }, 350); 
-  }
-
-  document.getElementById('nav-0').addEventListener('click', () => { if (homeServers.style.display === 'flex') resetHomeState(); });
-  let lastTap = 0;
-  document.getElementById('nav-0').addEventListener('touchend', (e) => {
-    const now = Date.now();
-    if (now - lastTap < 400 && now - lastTap > 0) { if (homeServers.style.display === 'flex') resetHomeState(); e.preventDefault(); }
-    lastTap = now;
-  });
-
-  // Initialize
-  setIcons(0);
-  applyLang('en'); 
-
-  // ─── IN-APP BROWSER LOGIC ───
-  const browser = document.getElementById('inAppBrowser');
-  const frame = document.getElementById('browserFrame');
-  const closeBtn = document.getElementById('closeBrowserBtn');
-  const loader = document.getElementById('iframeLoader');
-
-  // GLOBALLY ATTACHED FUNCTION
-  window.openServer = function(url) {
-    browser.style.display = 'block'; 
-    frame.classList.remove('loaded');
-    loader.style.display = 'flex';
-
-    setTimeout(() => { 
-      browser.classList.add('open'); 
-      frame.src = url; 
-    }, 10);
-  }
-
-  frame.onload = function() {
-    loader.style.display = 'none';
-    frame.classList.add('loaded');
-  };
-
-  function closeBrowser() {
-    browser.classList.remove('open');
-    setTimeout(() => { 
-      browser.style.display = 'none'; 
-      frame.src = ''; 
-      frame.classList.remove('loaded');
-    }, 350); 
-    igLeaveTime = null; 
-  }
-
-  closeBtn.addEventListener('click', closeBrowser);
-
-  // ─── 10-MINUTE BACKGROUND LOGIC & INSTAGRAM APP LINK ───
-  let igLeaveTime = null;
-  const TEN_MINUTES_MS = 10 * 60 * 1000;
-
-  document.getElementById('igBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    igLeaveTime = Date.now(); 
-    
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf("android") > -1) {
-      window.location.href = "intent://instagram.com/#Intent;package=com.instagram.android;scheme=https;end";
-    } else if (ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1) {
-      window.location.href = "instagram://app";
-    } else {
-      window.open("https://instagram.com", "_blank");
-    }
-  });
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && igLeaveTime !== null) {
-      const timeAway = Date.now() - igLeaveTime;
-      if (timeAway > TEN_MINUTES_MS) {
-        closeBrowser(); 
-      } 
-      igLeaveTime = null; 
-    }
-  });
-})();
-</script>
 </body>
 </html>

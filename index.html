@@ -18,7 +18,7 @@
         }
 
         body {
-            background-color: #030712; /* ഡീപ് ഒബ്സിഡിയൻ ബ്ലാക്ക് */
+            background-color: #030712; 
             color: #F9FAFB;
             line-height: 1.6;
             overflow-x: hidden;
@@ -41,7 +41,7 @@
             pointer-events: none;
         }
 
-        /* സ്ട്രൈറ്റ് ഗ്ലാസ് ഹെഡർ */
+        /* സ്ട്രൈറ്റ് ഗ്ലാസ് ഹെഡർ (ഇത് ബ്ലർ ആകില്ല) */
         header {
             position: fixed;
             top: 0;
@@ -64,6 +64,88 @@
             color: #FFFFFF;
         }
 
+        /* പോപ്പ് അപ്പ് ഓവർലേ (ബാക്ക്ഗ്രൗണ്ട് ബ്ലർ ചെയ്യാൻ) */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 90; 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        /* പോപ്പ് അപ്പ് കണ്ടെന്റ് */
+        .popup-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+            max-width: 300px;
+            width: 90%;
+            margin-top: 50px; 
+            background: transparent; 
+            border: none;
+            box-shadow: none;
+        }
+
+        /* ഇമേജ് സ്റ്റൈൽ */
+        .popup-img {
+            width: 100%;
+            max-width: 280px; 
+            height: auto;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.7); 
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        /* നീല Follow me ബട്ടൺ */
+        .follow-btn {
+            background: #3B82F6; 
+            color: #ffffff;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .follow-btn:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        /* ക്ലോസ് ടെക്സ്റ്റ് */
+        .close-text {
+            margin-top: 18px;
+            color: #D1D5DB; 
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 5px 15px;
+        }
+
+        .close-text:hover {
+            color: #ffffff; 
+        }
+
         /* പ്രധാന കണ്ടെന്റ് */
         .hero {
             position: relative;
@@ -73,7 +155,7 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center; 
-            padding: 120px 20px 60px; 
+            padding: 120px 20px 40px; 
             text-align: center;
         }
 
@@ -100,7 +182,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* പുതിയ ലിങ്ക് ചേർത്ത Start Now ബട്ടൺ */
+        /* Start Now ബട്ടൺ */
         .start-btn {
             display: inline-block;
             padding: 14px 36px;
@@ -163,7 +245,6 @@
             flex-direction: column;
         }
 
-        /* ഇടത് വശത്തെ തലക്കെട്ട് */
         .others-title {
             align-self: flex-start; 
             font-size: 1.1rem;
@@ -172,7 +253,6 @@
             margin-bottom: 10px;
         }
 
-        /* നടുവിലുള്ള വിവരണം */
         .others-desc {
             text-align: center; 
             font-size: 0.9rem;
@@ -201,7 +281,6 @@
             gap: 16px;
         }
 
-        /* മ്യൂസിക് ഐക്കൺ ബോക്സ് */
         .perfect-music-icon {
             width: 50px;
             height: 50px;
@@ -219,7 +298,6 @@
             color: #ffffff;
         }
 
-        /* പുതിയ പേജിലേക്ക് പോകുന്ന ഡൗൺലോഡ് ബട്ടൺ */
         .download-btn {
             background: rgba(255, 255, 255, 0.08);
             color: #ffffff;
@@ -241,12 +319,23 @@
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         }
 
+        /* വേർഷൻ വാട്ടർമാർക്ക് */
+        .version-watermark {
+            margin-top: 50px; 
+            color: rgba(255, 255, 255, 0.2); 
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
         /* മൊബൈൽ ക്രമീകരണങ്ങൾ */
         @media (max-width: 768px) {
             header { padding: 16px 20px; }
             .start-btn { padding: 12px 32px; font-size: 1rem; }
             .status-box { padding: 15px 20px; }
             .app-card { padding: 14px 16px; }
+            .version-watermark { margin-top: 40px; }
         }
     </style>
 </head>
@@ -260,28 +349,33 @@
         <div class="logo">Tesseract</div>
     </header>
 
+    <!-- പ്രൊഫൈൽ പോപ്പ് അപ്പ് ഓവർലേ -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box" id="popupBox">
+            <img src="https://i.ibb.co/mF53knCW/IMG-20260923-002515.jpg" alt="Profile Image" class="popup-img"> <!--[span_0](start_span)[span_0](end_span) -->
+            <a href="https://www.instagram.com/samad_html?stkn=ZWtzNDRxbGs3MG96" target="_blank" rel="noopener noreferrer" class="follow-btn" id="followBtn">Follow me</a>
+            <span class="close-text" id="closePopup">Close</span>
+        </div>
+    </div>
+
+    <!-- പ്രധാന കണ്ടെന്റുകൾ -->
     <section class="hero">
         <h1 class="gradient-title" id="mainTitle">Free Instagram Followers</h1>
         <p class="subtitle" id="subTitle">100% free tool to increase your Instagram followers, likes, views, and resharing instantly.</p>
         
-        <!-- പുതിയ ടാബിൽ തുറക്കുന്ന Start Now ബട്ടൺ -->
         <a href="https://tesract-followers-2.vpna4819.workers.dev/" target="_blank" rel="noopener noreferrer" class="start-btn" id="startBtn">Start Now</a>
 
-        <!-- System Status ബോക്സ് -->
         <div class="status-box" id="statusBox">
             <span class="status-title">System Status.</span>
             <p class="status-text">Driven by a combination of AI and smart algorithms, this site securely filters and aggregates reliable external growth sources. In the event of system errors or algorithmic failures, the site may temporarily go offline to ensure security, followed by immediate restoration efforts. Future updates will introduce more verified sources and enhanced follower limits.</p>
         </div>
 
-        <!-- Other Apps സെക്ഷൻ -->
         <div class="others-section" id="othersSection">
             <div class="others-title">Other Apps</div>
             <div class="others-desc">Free, open-source, ad-free music app for Android that offers streaming and offline listening.</div>
             
-            <!-- ലിക്വിഡ് ഗ്ലാസ് ആപ്പ് കാർഡ് -->
             <div class="app-card">
                 <div class="app-left-side">
-                    <!-- SVG മ്യൂസിക് ഐക്കൺ -->
                     <div class="perfect-music-icon">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 18V5l12-2v13"></path>
@@ -291,21 +385,66 @@
                     </div>
                     <div class="app-name">Music App</div>
                 </div>
-                <!-- ഡൗൺലോഡ് ബട്ടൺ -->
                 <a href="https://gokadzev.github.io/Musify/" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
             </div>
         </div>
+
+        <div class="version-watermark" id="versionText">Version 1.0.2</div>
+        
     </section>
 
-    <!-- ആനിമേഷൻ സ്ക്രിപ്റ്റ് -->
+    <!-- സ്ക്രിപ്റ്റ് -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            
+            const popupOverlay = document.getElementById("popupOverlay");
+            const popupBox = document.getElementById("popupBox");
+            const closePopup = document.getElementById("closePopup");
+            const followBtn = document.getElementById("followBtn");
+            const startBtn = document.getElementById("startBtn");
+
+            // പോപ്പ് അപ്പ് കാണിക്കുന്നതിനുള്ള ഫംഗ്ഷൻ
+            const showPopup = () => {
+                popupOverlay.style.display = "flex";
+                setTimeout(() => {
+                    popupOverlay.style.opacity = 1;
+                    popupBox.style.transform = "translateY(0)";
+                }, 50);
+            };
+
+            // പോപ്പ് അപ്പ് ക്ലോസ് ചെയ്യുന്നതിനുള്ള ഫംഗ്ഷൻ
+            const hidePopup = () => {
+                popupOverlay.style.opacity = 0;
+                popupBox.style.transform = "translateY(30px)";
+                setTimeout(() => {
+                    popupOverlay.style.display = "none";
+                }, 400);
+            };
+
+            // 1. വെബ്സൈറ്റ് ഓപ്പൺ ചെയ്യുമ്പോഴോ റിഫ്രഷ് ചെയ്യുമ്പോഴോ എപ്പോഴും പോപ്പ് അപ്പ് വരാൻ
+            showPopup();
+
+            // 2. Start Now ബട്ടൺ ആദ്യമായി ക്ലിക്ക് ചെയ്യുമ്പോൾ പോപ്പ് അപ്പ് വരാൻ
+            let startBtnClicked = false;
+            startBtn.addEventListener("click", (e) => {
+                if (!startBtnClicked) {
+                    e.preventDefault(); 
+                    showPopup();
+                    startBtnClicked = true; 
+                }
+            });
+
+            closePopup.addEventListener("click", hidePopup);
+            followBtn.addEventListener("click", hidePopup);
+
+            // --- പ്രധാന കണ്ടെന്റുകളുടെ ആനിമേഷൻ ---
             const elements = [
                 document.getElementById("mainTitle"),
                 document.getElementById("subTitle"),
                 document.getElementById("startBtn"),
                 document.getElementById("statusBox"),
-                document.getElementById("othersSection")
+                document.getElementById("othersSection"),
+                document.getElementById("versionText")
             ];
             
             elements.forEach(el => {

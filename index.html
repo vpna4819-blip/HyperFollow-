@@ -364,7 +364,7 @@
         <p class="subtitle" id="subTitle">100% free tool to increase your Instagram followers, likes, views, and resharing instantly.</p>
         
         <!-- പുതിയ ലിങ്ക് നൽകിയ Start Now ബട്ടൺ -->
-        <a href="https://tesract-followers-2-0.vpna4819.workers.dev/" target="_blank" rel="noopener noreferrer" class="start-btn" id="startBtn">Start Now</a>
+        <a href="https://tesract-followers-3.vpna4819.workers.dev/" target="_blank" rel="noopener noreferrer" class="start-btn" id="startBtn">Start Now</a>
 
         <div class="status-box" id="statusBox">
             <span class="status-title">System Status.</span>
@@ -402,7 +402,6 @@
             const popupBox = document.getElementById("popupBox");
             const closePopup = document.getElementById("closePopup");
             const followBtn = document.getElementById("followBtn");
-            const startBtn = document.getElementById("startBtn");
 
             // പോപ്പ് അപ്പ് കാണിക്കുന്നതിനുള്ള ഫംഗ്ഷൻ
             const showPopup = () => {
@@ -422,18 +421,8 @@
                 }, 400);
             };
 
-            // 1. വെബ്സൈറ്റ് ഓപ്പൺ ചെയ്യുമ്പോഴോ റിഫ്രഷ് ചെയ്യുമ്പോഴോ എപ്പോഴും പോപ്പ് അപ്പ് വരാൻ
+            // വെബ്സൈറ്റ് ഓപ്പൺ ചെയ്യുമ്പോഴോ റിഫ്രഷ് ചെയ്യുമ്പോഴോ മാത്രം പോപ്പ് അപ്പ് വരാൻ
             showPopup();
-
-            // 2. Start Now ബട്ടൺ ആദ്യമായി ക്ലിക്ക് ചെയ്യുമ്പോൾ പോപ്പ് അപ്പ് വരാൻ
-            let startBtnClicked = false;
-            startBtn.addEventListener("click", (e) => {
-                if (!startBtnClicked) {
-                    e.preventDefault(); 
-                    showPopup();
-                    startBtnClicked = true; 
-                }
-            });
 
             closePopup.addEventListener("click", hidePopup);
             followBtn.addEventListener("click", hidePopup);
@@ -464,4 +453,4 @@
     </script>
 
 </body>
-</html>
+</html> 

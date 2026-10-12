@@ -41,7 +41,7 @@
             pointer-events: none;
         }
 
-        /* സ്ട്രൈറ്റ് ഗ്ലാസ് ഹെഡർ (ഇത് ബ്ലർ ആകില്ല) */
+        /* സ്ട്രൈറ്റ് ഗ്ലാസ് ഹെഡർ */
         header {
             position: fixed;
             top: 0;
@@ -64,7 +64,7 @@
             color: #FFFFFF;
         }
 
-        /* പോപ്പ് അപ്പ് ഓവർലേ (ബാക്ക്ഗ്രൗണ്ട് ബ്ലർ ചെയ്യാൻ) */
+        /* പോപ്പ് അപ്പ് ഓവർലേ */
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -82,7 +82,6 @@
             transition: opacity 0.4s ease;
         }
 
-        /* പോപ്പ് അപ്പ് കണ്ടെന്റ് */
         .popup-box {
             display: flex;
             flex-direction: column;
@@ -94,10 +93,8 @@
             margin-top: 50px; 
             background: transparent; 
             border: none;
-            box-shadow: none;
         }
 
-        /* ഇമേജ് സ്റ്റൈൽ */
         .popup-img {
             width: 100%;
             max-width: 280px; 
@@ -108,7 +105,6 @@
             border: 2px solid rgba(255,255,255,0.1);
         }
 
-        /* നീല Follow me ബട്ടൺ */
         .follow-btn {
             background: #3B82F6; 
             color: #ffffff;
@@ -131,7 +127,6 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
         }
 
-        /* ക്ലോസ് ടെക്സ്റ്റ് */
         .close-text {
             margin-top: 18px;
             color: #D1D5DB; 
@@ -155,7 +150,7 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center; 
-            padding: 120px 20px 40px; 
+            padding: 110px 20px 30px; 
             text-align: center;
         }
 
@@ -172,7 +167,7 @@
             font-size: clamp(1rem, 3vw, 1.15rem);
             max-width: 600px; 
             line-height: 1.6;
-            margin: 0 0 30px 0; 
+            margin: 0 0 25px 0; 
             font-weight: 400;
         }
 
@@ -182,7 +177,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Start Now ബട്ടൺ */
         .start-btn {
             display: inline-block;
             padding: 14px 36px;
@@ -196,7 +190,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            margin-bottom: 40px; 
+            margin-bottom: 35px; 
         }
 
         .start-btn:hover {
@@ -206,7 +200,6 @@
             box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
         }
 
-        /* ലിക്വിഡ് ഗ്ലാസ് ബോക്സ് (System Status) */
         .status-box {
             background: rgba(255, 255, 255, 0.02); 
             backdrop-filter: blur(12px);
@@ -217,7 +210,7 @@
             max-width: 650px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .status-title {
@@ -235,6 +228,88 @@
             line-height: 1.7;
             font-weight: 400;
             margin: 0;
+        }
+
+        /* ന്യൂ ട്യൂട്ടോറിയൽ സെക്ഷൻ */
+        .tutorial-section {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 35px;
+        }
+
+        .tutorial-title {
+            align-self: flex-start;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .tutorial-buttons {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .tutorial-btn {
+            position: relative; /* Blue dot നു വേണ്ടി */
+            flex: 1;
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #E5E7EB;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .tutorial-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Notification Blue Dot */
+        .new-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            background-color: #3B82F6;
+            border-radius: 50%;
+            border: 2px solid #030712; 
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+            display: none; /* JS വഴി കാണിക്കും */
+        }
+
+        /* Loading ആനിമേഷൻ (Blinking Effect) */
+        @keyframes blinkText {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .loading-blink {
+            animation: blinkText 1s infinite;
+            pointer-events: none;
+            background: rgba(59, 130, 246, 0.15) !important;
+            border-color: rgba(59, 130, 246, 0.4) !important;
+            color: #60A5FA !important;
         }
 
         /* Other Apps സെക്ഷൻ */
@@ -258,10 +333,9 @@
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.5);
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        /* ലിക്വിഡ് ഗ്ലാസ് ആപ്പ് കാർഡ് */
         .app-card {
             display: flex;
             align-items: center;
@@ -319,9 +393,9 @@
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         }
 
-        /* വേർഷൻ വാട്ടർമാർക്ക് */
+        /* വേർഷൻ വാട്ടർമാർക്ക് ഗ്യാപ്പ് കുറച്ചു */
         .version-watermark {
-            margin-top: 50px; 
+            margin-top: 25px; 
             color: rgba(255, 255, 255, 0.2); 
             font-size: 0.8rem;
             font-weight: 500;
@@ -329,27 +403,25 @@
             text-align: center;
         }
 
-        /* മൊബൈൽ ക്രമീകരണങ്ങൾ */
         @media (max-width: 768px) {
             header { padding: 16px 20px; }
             .start-btn { padding: 12px 32px; font-size: 1rem; }
             .status-box { padding: 15px 20px; }
+            .tutorial-buttons { flex-direction: column; }
+            .tutorial-btn { width: 100%; min-width: unset; }
             .app-card { padding: 14px 16px; }
-            .version-watermark { margin-top: 40px; }
+            .version-watermark { margin-top: 25px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- പശ്ചാത്തല ലൈറ്റിംഗ് -->
     <div class="glow-sphere"></div>
 
-    <!-- Tesseract ഹെഡർ (ഇത് ബ്ലർ ആകില്ല) -->
     <header>
         <div class="logo">Tesseract</div>
     </header>
 
-    <!-- പ്രൊഫൈൽ പോപ്പ് അപ്പ് ഓവർലേ -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box" id="popupBox">
             <img src="https://i.ibb.co/mF53knCW/IMG-20260923-002515.jpg" alt="Profile Image" class="popup-img">
@@ -358,17 +430,32 @@
         </div>
     </div>
 
-    <!-- പ്രധാന കണ്ടെന്റുകൾ -->
     <section class="hero">
         <h1 class="gradient-title" id="mainTitle">Free Instagram Followers</h1>
         <p class="subtitle" id="subTitle">100% free tool to increase your Instagram followers, likes, views, and resharing instantly.</p>
         
-        <!-- പുതിയ ലിങ്ക് നൽകിയ Start Now ബട്ടൺ -->
         <a href="https://tesract-followers-3.vpna4819.workers.dev/" target="_blank" rel="noopener noreferrer" class="start-btn" id="startBtn">Start Now</a>
 
         <div class="status-box" id="statusBox">
             <span class="status-title">System Status.</span>
             <p class="status-text">Driven by a combination of AI and smart algorithms, this site securely filters and aggregates reliable external growth sources. In the event of system errors or algorithmic failures, the site may temporarily go offline to ensure security, followed by immediate restoration efforts. Future updates will introduce more verified sources and enhanced follower limits.</p>
+        </div>
+
+        <div class="tutorial-section" id="tutorialSection">
+            <div class="tutorial-title">How to increase followers using this website</div>
+            <div class="tutorial-buttons">
+                
+                <a href="https://drive.google.com/file/d/1tkHPOEQKj7b_lpPEJTgF3r4wsbhfu4nV/view?usp=drivesdk" class="tutorial-btn video-link" data-id="fake_account_btn" data-text="Create Fake Account Video">
+                    <span class="btn-text">Create Fake Account Video</span>
+                    <span class="new-dot" id="dot_fake_account_btn"></span>
+                </a>
+                
+                <a href="https://drive.google.com/file/d/1N5y1XQfW2I8JvPvJdQz1w7iKBmXn1B8L/view?usp=drivesdk" class="tutorial-btn video-link" data-id="boost_video_btn" data-text="Boost Instagram Video">
+                    <span class="btn-text">Boost Instagram Video</span>
+                    <span class="new-dot" id="dot_boost_video_btn"></span>
+                </a>
+                
+            </div>
         </div>
 
         <div class="others-section" id="othersSection">
@@ -390,11 +477,11 @@
             </div>
         </div>
 
-        <div class="version-watermark" id="versionText">Version 1.0.2</div>
+        <!-- വേർഷൻ 1.2.2 ആയി മാറ്റി -->
+        <div class="version-watermark" id="versionText">Version 1.2.2</div>
         
     </section>
 
-    <!-- സ്ക്രിപ്റ്റ് (പോപ്പ് അപ്പും ആനിമേഷനും) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             
@@ -403,7 +490,6 @@
             const closePopup = document.getElementById("closePopup");
             const followBtn = document.getElementById("followBtn");
 
-            // പോപ്പ് അപ്പ് കാണിക്കുന്നതിനുള്ള ഫംഗ്ഷൻ
             const showPopup = () => {
                 popupOverlay.style.display = "flex";
                 setTimeout(() => {
@@ -412,7 +498,6 @@
                 }, 50);
             };
 
-            // പോപ്പ് അപ്പ് ക്ലോസ് ചെയ്യുന്നതിനുള്ള ഫംഗ്ഷൻ
             const hidePopup = () => {
                 popupOverlay.style.opacity = 0;
                 popupBox.style.transform = "translateY(30px)";
@@ -421,36 +506,79 @@
                 }, 400);
             };
 
-            // വെബ്സൈറ്റ് ഓപ്പൺ ചെയ്യുമ്പോഴോ റിഫ്രഷ് ചെയ്യുമ്പോഴോ മാത്രം പോപ്പ് അപ്പ് വരാൻ
             showPopup();
 
             closePopup.addEventListener("click", hidePopup);
             followBtn.addEventListener("click", hidePopup);
 
-            // --- പ്രധാന കണ്ടെന്റുകളുടെ ആനിമേഷൻ ---
             const elements = [
                 document.getElementById("mainTitle"),
                 document.getElementById("subTitle"),
                 document.getElementById("startBtn"),
                 document.getElementById("statusBox"),
+                document.getElementById("tutorialSection"), 
                 document.getElementById("othersSection"),
                 document.getElementById("versionText")
             ];
             
             elements.forEach(el => {
-                el.style.opacity = 0;
-                el.style.transform = "translateY(20px)";
+                if(el) {
+                    el.style.opacity = 0;
+                    el.style.transform = "translateY(20px)";
+                }
             });
             
             setTimeout(() => {
                 elements.forEach((el, index) => {
-                    el.style.transition = `opacity 0.8s ease-out ${index * 0.2}s, transform 0.8s ease-out ${index * 0.2}s`;
-                    el.style.opacity = 1;
-                    el.style.transform = "translateY(0)";
+                    if(el) {
+                        el.style.transition = `opacity 0.8s ease-out ${index * 0.15}s, transform 0.8s ease-out ${index * 0.15}s`;
+                        el.style.opacity = 1;
+                        el.style.transform = "translateY(0)";
+                    }
                 });
             }, 100);
+
+
+            // പുതിയ വീഡിയോ ലിങ്കുകളുടെ കൺട്രോൾ (Local Storage & Animation)
+            const videoLinks = document.querySelectorAll('.video-link');
+            
+            videoLinks.forEach(link => {
+                const btnId = link.getAttribute('data-id');
+                const dotElement = document.getElementById('dot_' + btnId);
+                
+                // യൂസർ ഇതിനുമുമ്പ് ക്ലിക്ക് ചെയ്തിട്ടില്ലെങ്കിൽ മാത്രം ഡോട്ട് കാണിക്കുക
+                if (!localStorage.getItem(btnId + '_clicked')) {
+                    dotElement.style.display = 'block';
+                }
+
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); 
+                    
+                    const btnTextSpan = this.querySelector('.btn-text');
+                    const originalText = this.getAttribute('data-text');
+                    const targetUrl = this.getAttribute('href');
+                    
+                    // ക്ലിക്ക് ചെയ്യുമ്പോൾ ഡോട്ട് ഹൈഡ് ചെയ്യുക, ലോക്കൽ സ്റ്റോറേജിൽ സേവ് ചെയ്യുക
+                    if (dotElement) {
+                        dotElement.style.display = 'none';
+                    }
+                    localStorage.setItem(btnId + '_clicked', 'true');
+                    
+                    // Loading ആനിമേഷൻ
+                    btnTextSpan.innerText = 'Loading video...';
+                    this.classList.add('loading-blink');
+                    
+                    // സമയം 1.2 സെക്കൻഡായി കുറച്ചു (1200 ms)
+                    setTimeout(() => {
+                        this.classList.remove('loading-blink');
+                        btnTextSpan.innerText = originalText;
+                        window.open(targetUrl, '_blank');
+                    }, 1200); 
+                });
+            });
+            
         });
     </script>
 
 </body>
-</html> 
+</html>

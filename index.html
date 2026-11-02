@@ -1,1 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tesseract — Free Instagram Followers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,500,0,0" rel="stylesheet">
+  <style>
+    :root {
+      --gold-lt: #ffe494;
+      --gold: #f0c14d;
+      --gold-dk: #b87e14;
+      --bg: radial-gradient(circle at 80% 10%, rgba(240, 193, 77, 0.15), transparent 45%),
+            radial-gradient(circle at 20% 80%, rgba(184, 126, 20, 0.1), transparent 50%), #09090b;
+      --header: rgba(15, 15, 15, 0.38);
+      --glass: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #ffffff;
+      --muted: #bdbdc7;
+    }
 
+    /* ---------- Dark/Light Theme Fine-Tuning (Dark Bronze/Amber Shades for High Contrast) ---------- */
+    [data-theme="light"] {
+      --gold-lt: #8c5a08;
+      --gold: #a66c0a;
+      --gold-dk: #593800;
+      --bg: radial-gradient(circle at 80% 10%, rgba(212, 150, 30, 0.2), transparent 45%),
+            radial-gradient(circle at 20% 80%, rgba(184, 126, 20, 0.12), transparent 50%), #f4f5f8;
+      --header: rgba(255, 255, 255, 0.65);
+      --glass: rgba(255, 255, 255, 0.72);
+      --border: rgba(140, 90, 8, 0.18);
+      --text: #0f0f12;
+      --muted: #4a4a55;
+    }
+
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+    html, body {
+      font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg) fixed;
+      height: 100%; overflow: hidden; overscroll-behavior: none; line-height: 1.65;
+    }
+    .container { width: min(100% - 2.5rem, 1180px); margin-inline: auto; }
+
+    /* ---------- Fixed Liquid Glass Header ---------- */
+    .header {
+      position: fixed; top: 0; inset-inline: 0; height: 66px; z-index: 50;
+      background: var(--header); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    .logo {
+      font-family: 'Poppins', sans-serif; font-size: 1.45rem; font-weight: 700; text-decoration: none;
+      background: linear-gradient(90deg, var(--text), var(--gold), var(--text));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .theme-btn {
+      width: 42px; height: 42px; border-radius: 14px; background: var(--glass);
+      border: 1px solid var(--border); color: var(--text); cursor: pointer;
+      display: grid; place-items: center; position: relative; overflow: hidden;
+      backdrop-filter: blur(12px); box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
+    .theme-btn span { position: absolute; font-size: 20px; transition: transform 0.55s cubic-bezier(.34,1.56,.64,1), opacity 0.35s; }
+    .theme-btn .sun { opacity: 0; transform: rotate(-120deg) scale(0.3); }
+    [data-theme="light"] .theme-btn .moon { opacity: 0; transform: rotate(120deg) scale(0.3); }
+    [data-theme="light"] .theme-btn .sun { opacity: 1; transform: rotate(0) scale(1); }
+
+    /* ---------- Temporary Click Ripple & Border Animation ---------- */
+    .tap-fx { position: relative; overflow: hidden; transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+    .tap-fx::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+      background: radial-gradient(circle 90px at var(--rx, 50%) var(--ry, 50%), rgba(240, 193, 77, 0.45), transparent 70%);
+    }
+    .tap-fx.pulsing { animation: btnPulse 0.5s ease-out; }
+    .tap-fx.pulsing::after { animation: rippleFade 0.5s ease-out; }
+    @keyframes btnPulse {
+      0% { transform: scale(0.95); border-color: var(--gold); box-shadow: 0 0 22px rgba(240, 193, 77, 0.55); }
+      60% { transform: scale(1.01); border-color: var(--gold-lt); }
+      100% { transform: scale(1); }
+    }
+    @keyframes rippleFade { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+    /* ---------- Swipeable Dual Viewport ---------- */
+    .viewport { margin-top: 66px; height: calc(100dvh - 66px); overflow: hidden; touch-action: pan-y; }
+    .track { display: flex; width: 200%; height: 100%; transition: transform 0.55s cubic-bezier(.22,1,.36,1); }
+    .track.dragging { transition: none; }
+    .page {
+      width: 50%; height: 100%; overflow-y: auto; overscroll-behavior-y: none;
+      padding: clamp(2rem, 5vw, 3.5rem) 0 0.6rem;
+    }
+    .page::-webkit-scrollbar { width: 5px; }
+    .page::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    /* ---------- Home Page Content ---------- */
+    .hero-content { max-width: 720px; }
+    h1 {
+      font-family: 'Poppins', sans-serif; font-size: clamp(2.4rem, 6.4vw, 4.4rem);
+      font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 1.4rem;
+    }
+    .hl {
+      position: relative; white-space: nowrap;
+      background: linear-gradient(135deg, var(--gold-lt) 10%, var(--gold) 55%, var(--gold-dk) 95%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hl::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0.05em; height: 0.11em;
+      background: linear-gradient(90deg, var(--gold-lt), var(--gold-dk)); opacity: 0.65;
+      border-radius: 4px; transform-origin: left; animation: grow 1s 0.4s ease both;
+    }
+    @keyframes grow { from { transform: scaleX(0); } }
+
+    .lead { font-size: clamp(1rem, 1.6vw, 1.14rem); color: var(--muted); max-width: 640px; margin-bottom: 1.1rem; }
+    .sub-lead { font-size: clamp(0.88rem, 1.3vw, 0.96rem); color: var(--text); opacity: 0.85; max-width: 600px; margin-bottom: 2.2rem; }
+
+    .hero-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; align-items: center; padding-top: 6px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.85rem 1.5rem; border-radius: 999px; font-family: 'Poppins', sans-serif;
+      font-weight: 600; font-size: 0.95rem; color: var(--text); text-decoration: none;
+      cursor: pointer; background: var(--glass); border: 1px solid var(--border);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      position: relative;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(255, 228, 148, 0.22), rgba(240, 193, 77, 0.34), rgba(184, 126, 20, 0.25));
+      border-color: rgba(240, 193, 77, 0.42);
+      color: var(--gold-lt);
+    }
+    [data-theme="light"] .btn-primary {
+      color: #4d3100;
+      background: linear-gradient(135deg, rgba(240, 193, 77, 0.38), rgba(184, 126, 20, 0.28));
+      border-color: rgba(166, 108, 10, 0.45);
+      box-shadow: 0 6px 20px rgba(140, 90, 8, 0.15);
+    }
+
+    /* ---------- GTA 5 Button Wrapper, Side-to-Side Glow & Blue "NEW" Tag ---------- */
+    .gta-btn-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Side-to-side sweeping glow inside the Play GTA 5 button */
+    .btn-glow-sweep {
+      position: absolute; inset: 0; border-radius: inherit;
+      overflow: hidden; pointer-events: none; z-index: 0;
+    }
+    .btn-glow-sweep::before {
+      content: ""; position: absolute; top: 0; bottom: 0; width: 70%;
+      background: linear-gradient(
+        105deg,
+        transparent 10%,
+        rgba(59, 130, 246, 0.12) 35%,
+        rgba(240, 193, 77, 0.38) 50%,
+        rgba(59, 130, 246, 0.12) 65%,
+        transparent 90%
+      );
+      transform: translateX(-160%) skewX(-20deg);
+      animation: sideToSideSweep 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    #gtaBtn .btn-text { position: relative; z-index: 1; }
+
+    /* Blue "NEW" Tag sitting right on the top border (Half-in, Half-out) */
+    .new-tag {
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6, #1d4ed8);
+      border: 1px solid rgba(191, 219, 254, 0.75);
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.9), 0 3px 8px rgba(0, 0, 0, 0.35);
+      z-index: 20;
+      pointer-events: none;
+      overflow: hidden;
+      animation: tagPulseGlow 2.2s ease-in-out infinite;
+    }
+
+    /* Side-to-side glowing sweep across the blue NEW tag */
+    .new-tag::after {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0; width: 65%;
+      background: linear-gradient(
+        105deg,
+        transparent 10%,
+        rgba(255, 255, 255, 0.75) 50%,
+        transparent 90%
+      );
+      transform: translateX(-160%) skewX(-20deg);
+      animation: sideToSideSweep 2.4s ease-in-out infinite;
+    }
+
+    .new-tag.hidden {
+      display: none !important;
+    }
+
+    @keyframes sideToSideSweep {
+      0% { transform: translateX(-160%) skewX(-20deg); }
+      60%, 100% { transform: translateX(260%) skewX(-20deg); }
+    }
+
+    @keyframes tagPulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.75), 0 0 18px rgba(37, 99, 235, 0.45);
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        box-shadow: 0 0 16px rgba(96, 165, 250, 1), 0 0 26px rgba(59, 130, 246, 0.85);
+        transform: translateY(-1px) scale(1.04);
+      }
+    }
+
+    /* ---------- Image, Frosted Gold Glass Follow Button & Watermark ---------- */
+    .profile-promo { margin-top: 2.2rem; max-width: 440px; display: flex; flex-direction: column; align-items: center; }
+    .promo-image-box {
+      width: 100%; border-radius: 20px; overflow: hidden;
+      background: var(--glass); border: 1px solid var(--border);
+      backdrop-filter: blur(16px); box-shadow: 0 12px 35px rgba(0,0,0,0.28);
+    }
+    .promo-image-box img { width: 100%; display: block; object-fit: cover; }
+
+    /* Frosted Gold Glass Follow Button */
+    .btn-follow {
+      width: 100%; margin-top: 1rem; padding: 0.95rem 1.5rem; border-radius: 16px;
+      background: rgba(240, 193, 77, 0.15);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(240, 193, 77, 0.4);
+      color: #ffe494;
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem;
+      text-align: center; text-decoration: none; letter-spacing: 0.02em;
+      box-shadow: 0 8px 28px -6px rgba(240, 193, 77, 0.22), inset 0 1px 1px rgba(255, 228, 148, 0.25);
+    }
+    .btn-follow:hover {
+      background: rgba(240, 193, 77, 0.22);
+      border-color: rgba(255, 228, 148, 0.65);
+      box-shadow: 0 10px 32px -4px rgba(240, 193, 77, 0.35);
+    }
+    [data-theme="light"] .btn-follow {
+      background: rgba(212, 150, 30, 0.18);
+      border: 1px solid rgba(166, 108, 10, 0.45);
+      color: #593800;
+      box-shadow: 0 8px 24px -6px rgba(140, 90, 8, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    }
+    [data-theme="light"] .btn-follow:hover {
+      background: rgba(212, 150, 30, 0.26);
+      border-color: rgba(140, 90, 8, 0.65);
+    }
+
+    /* Watermark stands at the very end with no extra scroll space below */
+    .watermark {
+      margin-top: 1.2rem; margin-bottom: 0; font-size: 0.8rem;
+      color: var(--muted); opacity: 0.65; letter-spacing: 0.05em; text-align: center;
+    }
+
+    /* ---------- Server Page ---------- */
+    .servers-wrap { max-width: 680px; margin-inline: auto; }
+    .server-list { display: flex; flex-direction: column; gap: 14px; }
+    .server-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px; border-radius: 18px; background: var(--glass);
+      border: 1px solid var(--border); color: var(--text); text-decoration: none;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.16);
+      opacity: 0; transform: translateY(25px);
+      transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.25s ease;
+    }
+    .server-btn.show { opacity: 1; transform: translateY(0); }
+    .srv-name {
+      font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700; display: block;
+      background: linear-gradient(90deg, var(--text), var(--gold-lt));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] .srv-name {
+      background: linear-gradient(90deg, #0f0f12, var(--gold-dk));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .srv-active { font-size: 0.8rem; color: #25d366; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+    [data-theme="light"] .srv-active { color: #169c46; font-weight: 600; }
+    .srv-active::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #25d366; box-shadow: 0 0 8px #25d366; }
+
+    /* Coming Soon Status Style */
+    .srv-soon { font-size: 0.8rem; color: var(--gold); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+    [data-theme="light"] .srv-soon { color: var(--gold-dk); font-weight: 600; }
+    .srv-soon::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+
+    /* ---------- Full-Screen Website & Landscape Game Viewer ---------- */
+    .fs-viewer {
+      position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 9999;
+      background: #000000; display: none; overflow: hidden;
+    }
+    .fs-viewer.active { display: block; }
+    .fs-viewer iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* Forced Landscape Mode when phone is held vertically (Portrait) */
+    @media screen and (orientation: portrait) {
+      .fs-viewer.landscape-mode {
+        inset: auto;
+        top: 50%;
+        left: 50%;
+        width: 100dvh;
+        height: 100vw;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a href="#home" class="logo" id="logoBtn">Tesseract</a>
+      <button class="theme-btn tap-fx" id="themeBtn" aria-label="Toggle Theme">
+        <span class="material-symbols-rounded moon">dark_mode</span>
+        <span class="material-symbols-rounded sun">light_mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Swipeable Viewport -->
+  <main class="viewport" id="viewport">
+    <div class="track" id="track">
+
+      <!-- Page 1: Home -->
+      <section class="page">
+        <div class="container">
+          <div class="hero-content">
+            <h1>Free Instagram <span class="hl">Followers</span></h1>
+            <p class="lead">Powered by smart AI, we curate secure growth sources. In case of security issues or technical faults, the website will go offline temporarily, but it will be restored quickly. More verified sources and higher limits coming soon.</p>
+            <p class="sub-lead">Click "Watch Video" below for a step-by-step guide on how to use this website and gain more followers.</p>
+
+            <div class="hero-actions">
+              <button type="button" class="btn btn-primary tap-fx" id="startBtn">
+                Start followers <span class="material-symbols-rounded">arrow_forward</span>
+              </button>
+
+              <!-- Wrapper keeps the Blue "NEW" Tag outside button clipping -->
+              <div class="gta-btn-wrap">
+                <a href="https://v2.fiveplay.lol/game.html?mode=sandbox&cfg=1_3-american" class="btn tap-fx" id="gtaBtn">
+                  <span class="btn-glow-sweep"></span>
+                  <span class="btn-text">Play GTA 5</span>
+                </a>
+                <span class="new-tag" id="gtaBadge">NEW</span>
+              </div>
+            </div>
+
+            <div class="profile-promo">
+              <div class="promo-image-box">
+                <img src="https://i.ibb.co/CKFLNnH9/IMG-20261015-143256.jpg" alt="Instagram Preview" loading="lazy">
+              </div>
+              <a href="https://www.instagram.com/samad_html?vrfl=MTI0MHBzcHMzcHRhcg==" target="_blank" rel="noopener noreferrer" class="btn-follow tap-fx">Follow</a>
+              <div class="watermark">©2026 version 2.0.0</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page 2: Servers -->
+      <section class="page" id="srvPage">
+        <div class="container">
+          <div class="servers-wrap">
+            <div class="server-list">
+              <!-- Server 1 -->
+              <a href="https://fastfollow.in/tools/send-follower/70220054978" class="server-btn srv-link tap-fx">
+                <div><span class="srv-name">Server 1</span><span class="srv-active">Active</span></div>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </a>
+
+              <!-- Server 2 -->
+              <a href="https://takipcimx.net/tools/send-follower/70220054978" class="server-btn srv-link tap-fx">
+                <div><span class="srv-name">Server 2</span><span class="srv-active">Active</span></div>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </a>
+
+              <!-- Server 3 -->
+              <a href="https://takipcitime.com/tools/send-follower/70220054978" class="server-btn srv-link tap-fx">
+                <div><span class="srv-name">Server 3</span><span class="srv-active">Active</span></div>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </a>
+
+              <!-- Server 4 -->
+              <a href="https://takipciking.com/tools/send-follower/70220054978" class="server-btn srv-link tap-fx">
+                <div><span class="srv-name">Server 4</span><span class="srv-active">Active</span></div>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </a>
+
+              <!-- Server 5 -->
+              <a href="https://takipcikrali.com/tools/send-follower/70220054978" class="server-btn srv-link tap-fx">
+                <div><span class="srv-name">Server 5</span><span class="srv-active">Active</span></div>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </a>
+
+              <!-- Server 6: Coming Soon -->
+              <a href="javascript:void(0)" class="server-btn tap-fx" style="cursor: default;">
+                <div><span class="srv-name">Server 6</span><span class="srv-soon">Coming Soon</span></div>
+                <span class="material-symbols-rounded">schedule</span>
+              </a>
+            </div>
+            <div class="watermark">©2026 version 2.0.0</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Full-Screen Container for Server Links & Landscape Game -->
+  <div class="fs-viewer" id="fsViewer">
+    <iframe id="fsFrame" src="about:blank" allow="fullscreen; autoplay; gamepad; accelerometer; gyroscope; pointer-lock" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    const track = document.getElementById('track');
+    const srvBtns = document.querySelectorAll('.server-btn');
+    const fsViewer = document.getElementById('fsViewer');
+    const fsFrame = document.getElementById('fsFrame');
+    const gtaBadge = document.getElementById('gtaBadge');
+    let page = 0, startX = 0, startY = 0, curX = 0, dragging = false, isHoriz = null;
+
+    // Hide the blue "NEW" tag permanently if user has already clicked Play GTA 5 once
+    if (localStorage.getItem('gta_new_tag_seen_v2') === 'true') {
+      gtaBadge.classList.add('hidden');
+    }
+
+    // One-Click Golden Ripple & Temporary Border Effect
+    document.querySelectorAll('.tap-fx').forEach(btn => {
+      btn.addEventListener('pointerdown', e => {
+        const r = btn.getBoundingClientRect();
+        btn.style.setProperty('--rx', `${e.clientX - r.left}px`);
+        btn.style.setProperty('--ry', `${e.clientY - r.top}px`);
+        btn.classList.remove('pulsing');
+        void btn.offsetWidth;
+        btn.classList.add('pulsing');
+      });
+      btn.addEventListener('animationend', () => btn.classList.remove('pulsing'));
+    });
+
+    // Animated Dark / Light Theme Toggle
+    const saved = localStorage.getItem('tv-theme');
+    if (saved) document.documentElement.dataset.theme = saved;
+    document.getElementById('themeBtn').onclick = (e) => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      const apply = () => { document.documentElement.dataset.theme = next; localStorage.setItem('tv-theme', next); };
+      if (!document.startViewTransition) return apply();
+      const r = e.currentTarget.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+      const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.startViewTransition(apply).ready.then(() => {
+        document.documentElement.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${rad}px at ${x}px ${y}px)`] },
+          { duration: 550, easing: 'cubic-bezier(.22,1,.36,1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      });
+    };
+
+    // Open URL in Full Screen (Supports Landscape Lock for GTA 5)
+    function openFullScreenServer(url, isLandscape = false) {
+      fsFrame.src = url;
+      fsViewer.classList.add('active');
+      if (isLandscape) {
+        fsViewer.classList.add('landscape-mode');
+      } else {
+        fsViewer.classList.remove('landscape-mode');
+      }
+
+      const docEl = document.documentElement;
+      const requestFs = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+
+      if (requestFs) {
+        Promise.resolve(requestFs.call(docEl)).then(() => {
+          if (isLandscape && screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {});
+          }
+        }).catch(() => {});
+      } else if (isLandscape && screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(() => {});
+      }
+
+      history.pushState({ fs: true }, '', isLandscape ? '#play-gta5' : '#fullscreen-server');
+    }
+
+    function closeFullScreenServer() {
+      fsViewer.classList.remove('active', 'landscape-mode');
+      fsFrame.src = 'about:blank';
+      if (screen.orientation && screen.orientation.unlock) {
+        try { screen.orientation.unlock(); } catch (e) {}
+      }
+      const exitFs = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if ((document.fullscreenElement || document.webkitFullscreenElement) && exitFs) {
+        exitFs.call(document).catch(() => {});
+      }
+    }
+
+    // Play GTA 5 Button -> Opens in Fullscreen + Landscape + Removes Blue "NEW" Tag Forever
+    document.getElementById('gtaBtn').addEventListener('click', e => {
+      e.preventDefault();
+      localStorage.setItem('gta_new_tag_seen_v2', 'true');
+      gtaBadge.classList.add('hidden');
+      openFullScreenServer(e.currentTarget.getAttribute('href'), true);
+    });
+
+    // Server Buttons -> Open in Fullscreen
+    document.querySelectorAll('.srv-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        openFullScreenServer(link.getAttribute('href'), false);
+      });
+    });
+
+    // Page Navigation & Stagger Scroll Animation
+    function go(p, push = true) {
+      page = p;
+      track.classList.remove('dragging');
+      track.style.transform = page ? 'translateX(-50%)' : 'translateX(0)';
+      if (page) {
+        document.getElementById('srvPage').scrollTop = 0;
+        srvBtns.forEach((b, i) => { b.classList.remove('show'); setTimeout(() => b.classList.add('show'), 70 + i * 75); });
+        if (push && location.hash !== '#servers') history.pushState(null, '', '#servers');
+      } else if (push && location.hash === '#servers') {
+        history.pushState(null, '', '#home');
+      }
+    }
+
+    document.getElementById('startBtn').onclick = () => setTimeout(() => go(1), 160);
+    document.getElementById('logoBtn').onclick = (e) => { e.preventDefault(); go(0); };
+
+    window.onpopstate = () => {
+      if (fsViewer.classList.contains('active')) {
+        closeFullScreenServer();
+        return;
+      }
+      go(location.hash === '#servers' ? 1 : 0, false);
+    };
+
+    if (location.hash === '#servers') go(1, false);
+
+    // Touch Swipe Left <-> Right
+    const vp = document.getElementById('viewport');
+    vp.addEventListener('touchstart', e => {
+      startX = curX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      dragging = true; isHoriz = null;
+    }, { passive: true });
+
+    vp.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      curX = e.touches[0].clientX;
+      const dx = curX - startX, dy = e.touches[0].clientY - startY;
+      if (isHoriz === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) isHoriz = Math.abs(dx) > Math.abs(dy) * 1.2;
+      if (isHoriz) {
+        track.classList.add('dragging');
+        const w = vp.offsetWidth, base = page ? -w : 0;
+        let move = base + dx;
+        if (move > 0) move *= 0.25;
+        if (move < -w) move = -w + (move + w) * 0.25;
+        track.style.transform = `translate3d(${move}px,0,0)`;
+      }
+    }, { passive: true });
+
+    vp.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      if (isHoriz) {
+        const dx = curX - startX, th = vp.offsetWidth * 0.18;
+        if (!page && dx < -th) go(1);
+        else if (page && dx > th) go(0);
+        else go(page, false);
+      }
+    });
+  </script>
+</body>
+</html>
